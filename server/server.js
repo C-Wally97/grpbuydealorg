@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 //const db = require('./ModelSQL.js');
 
+app.get('/api/deals', getDeals);
+
 async function getDeals(req, res) {
     res.json(deals);
 }

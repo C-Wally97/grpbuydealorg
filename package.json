@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/C-Wally97/grpbuyconcurrency/issues"
   },
-  "homepage": "https://github.com/C-Wally97/grpbuyconcurrency#readme"
+  "homepage": "https://github.com/C-Wally97/grpbuyconcurrency#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }

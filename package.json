@@ -4,8 +4,8 @@
   "description": "Demo for concurrency with group buying",
   "main": "index.js",
   "scripts": {
-    "test": "mysql -u root -p < serverdb.sql"
-    "start": "node server/server.js";
+    "test": "mysql -u root -p < serverdb.sql",
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",

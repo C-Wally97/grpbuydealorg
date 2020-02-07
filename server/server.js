@@ -12,8 +12,8 @@ app.use('/', express.static('client', {'extensions': ['html']}));
 
 let deals = [
   {
-    'id': 1;
-    'product': 'Bags';
-    'userAmount': 42;
+    'id': 1,
+    'product': 'Bags',
+    'userAmount': 42
   }
 ];

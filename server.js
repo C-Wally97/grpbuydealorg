@@ -4,7 +4,7 @@ const app = express();
 const mysql = require('mysql2');
 // our modules
 const db = require('./modelSQL.js');
-const auth = require('./auth.js');
+const auth = require('./auth-server.js');
 
 // server hosting
 app.set('view engine', 'ejs');

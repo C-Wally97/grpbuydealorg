@@ -4,12 +4,8 @@ async function boot() {
   console.log("hi");
 }
 
-async function getProductListings(queryContent) {
-  let url = '/api/productListings';
-
-  if(queryContent) {
-    url = url + '?' + queryContent
-  }
+async function getProductListings() {
+  const url = '/api/productListings';
   const response = await fetch(url);
   console.log(await response.json());
 }

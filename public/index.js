@@ -5,9 +5,23 @@ async function boot() {
 }
 
 async function getProductListings() {
+  addCard();
   const url = '/api/productListings';
-  const response = await fetch(url);
-  console.log(await response.json());
+  const cardContent = document.getElementById("card-content")
+  const response = await fetch(url)
+  .then(
+    function(response){
+      response.json().then(function(data){
+        for (var i = 0; i < data.length; i++) {
+          for (let ele of data) {
+            let eleWrap = document.createElement("li")
+            eleWrap.textContent = ele
+            cardContent.append(eleWrap)
+          }
+        }
+      })
+    }
+  )
 }
 
 async function postProductListing(name) {
@@ -29,4 +43,3 @@ function addCard() {
   let templateClone = template.content.cloneNode(true);
   main.appendChild(templateClone);
 }
-

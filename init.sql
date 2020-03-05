@@ -17,17 +17,17 @@ create table if not exists ProductListings (
   Supplier_id int not null,
   Buyers int not null,
   Rating int not null,
-  constraint FK_Supplier foreign key Supplier_id references Supplier (Supplier_id)
+  constraint FK_Supplier foreign key(Supplier_id) references Supplier (Supplier_id)
 );
 
 create table if not exists Users (
-  User_id int primary key auto_increment
+  User_id int primary key auto_increment,
   Name varchar(60) not null
 );
 
 create table if not exists ProductListings_Users (
-  User_id int auto_increment,
-  Listing_id int auto_increment,
+  User_id int,
+  Listing_id int,
   primary key (User_id, Listing_id),
   constraint fk_01 foreign key(User_id) references Users (User_id),
   constraint fk_02 foreign key(Listing_id) references ProductListings (Listing_id)

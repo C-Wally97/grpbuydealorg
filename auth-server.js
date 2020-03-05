@@ -1,22 +1,25 @@
+// npm modules
 const express = require('express');
 const session = require('express-session');
 const crypto = require('crypto');
+// our modules
+const db = require('./modelSQL.js');
 
 async function login(req, res) {
     const hash = crypto.createHash('md5');
-    const userAttempt = req.query.email;
-    const passAttempt = req.query.password;
-    hash.update(passAttempt);
-    const attempt = await sqlDb.getUser(userAttempt, hash.digest('hex'));
-    if (attempt instanceof Error === false) {
+    const email = req.query.email;
+    const password = req.query.password;
+
+    hash.update(password);
+
+    const attempt = await db.getUser(email, hash.digest('hex'));
+    if(attempt instanceof Error === false) {
         const currentDate = new Date();
-        console.log('User ' + attempt[0].email + ' authenticated on ' + currentDate);
+        console.log(`User: ${attempt.Email} just logged in!`);
         session.auth = true;
-        res.redirect('/descriptions');
-    }
-    else {
-        console.log("failed auth attempt");
-        res.render('index', {data: {message: 'invalid login'}});
+        session.email = attempt.email;
+    } else {
+        console.log("Failed auth attempt!");
     }
 }
 

@@ -27,7 +27,7 @@ async function showAll(table) {
 }
 
 async function insertProductListing(name, supplier_id) {
-  let query =  'INSERT INTO ProductListings SET ? ;';
+  const query =  'INSERT INTO ProductListings SET ? ;';
 
   // get today's date
   let listing_date = new Date();
@@ -37,8 +37,16 @@ async function insertProductListing(name, supplier_id) {
   return await sql.query(query);
 }
 
+async function getUser(email, password) {
+    const query = `SELECT * FROM Users WHERE Email = "${email}" AND Password = "${password}" ;`;
+    const formattedQuery = sql.format(query);
+    const rows = await sql.query(formattedQuery);
+    return rows[0][0];
+}
+
 module.exports = {
   init: init,
   showAll: showAll,
-  insertProductListing: insertProductListing
+  insertProductListing: insertProductListing,
+  getUser: getUser
 }

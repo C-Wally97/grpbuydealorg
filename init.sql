@@ -23,7 +23,8 @@ create table if not exists ProductListings (
 
 create table if not exists Users (
   User_id int primary key auto_increment,
-  Name varchar(60) not null
+  Email varchar(60) not null,
+  Password varchar(60) not null
 );
 
 create table if not exists ProductListings_Users (

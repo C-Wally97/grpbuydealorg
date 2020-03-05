@@ -1,3 +1,4 @@
+drop database if exists ProductDatabase;
 create database ProductDatabase;
 use ProductDatabase;
 

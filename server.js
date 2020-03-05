@@ -3,14 +3,8 @@ const app = express();
 //const db = require('./ModelSQL.js');
 
 app.get('/api/productListings', getProductListings);
-app.get('/api/productListing', getProductListing);
 
 async function getProductListings(req, res) {
-    if(req.query) {
-      console.log("query info:" + req.query);
-    } else {
-      console.log("no query");
-    };
     res.json(productListings);
 }
 

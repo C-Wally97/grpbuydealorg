@@ -37,7 +37,8 @@ async function getProductListings(req, res) {
   } else {
     console.log("An anonymous user just requested product listings!");
   }
-  res.json(await db.showAll('ProductListings'));
+  //res.json(await db.showAll('ProductListings'));
+  res.json(await db.allProductListings());
 }
 
 /**

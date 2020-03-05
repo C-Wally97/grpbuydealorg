@@ -14,15 +14,18 @@ async function init() {
   sql = await mysql.createConnection(config.mysql);
 }
 
-/**
-* gets records from given table
-* @param {string} table to be queried
-* @return {records} result of query
-*/
-async function showAll(table) {
-  const query = `SELECT * FROM ${table}`;
-  const formattedQuery = sql.format(query);
-  const rows = await sql.query(formattedQuery);
+async function allProductListings() {
+  // form query
+  const productFields = 'ProductListings.Name as ProductName, ProductListings.Listing_Date, ProductListings.Product_Rating';
+  const supplierFields = 'Supplier.Name as SupplierName, Supplier.Supplier_rating';
+  const selectStatement = `SELECT ${productFields}, ${supplierFields} FROM ProductListings `;
+  const supplierJoin = 'INNER JOIN Supplier ON Supplier.Supplier_id = ProductListings.Supplier_id';
+  let query = selectStatement + supplierJoin;
+  console.log(query);
+
+  // make query to database
+  query = await sql.format(query);
+  const rows = await sql.query(query);
   return rows[0];
 }
 
@@ -31,7 +34,7 @@ async function insertProductListing(name, supplier_id) {
 
   // get today's date
   let listing_date = new Date();
-  listing_date = listing_date.toISOString().slice(0, 10);
+  listing_date = listing_date.toISOString();
 
   query = sql.format(query, {name, listing_date, supplier_id});
   return await sql.query(query);
@@ -46,7 +49,7 @@ async function getUser(email, password) {
 
 module.exports = {
   init: init,
-  showAll: showAll,
+  allProductListings: allProductListings,
   insertProductListing: insertProductListing,
   getUser: getUser
 }

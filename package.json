@@ -4,7 +4,7 @@
   "description": "Demo for deal organisation within a group buying system.",
   "main": "index.js",
   "scripts": {
-    "test": "mysql -u root -p < serverdb.sql",
+    "init_database": "mysql -u root -p < init.sql",
     "start": "node server.js",
     "dev": "npx nodemon server.js"
   },

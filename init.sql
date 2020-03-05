@@ -1,9 +1,9 @@
-create database if not exists ProductDatabase;
+create database ProductDatabase;
 use ProductDatabase;
 
 create table if not exists Supplier (
   Supplier_id int primary key auto_increment,
-  Supplier_rating int not null,
+  Supplier_rating int default 0,
   Name varchar(60) not null,
   Address varchar(150) unique,
   Town varchar(54) not null,
@@ -15,8 +15,8 @@ create table if not exists ProductListings (
   Name varchar(60) not null,
   Listing_date date not null,
   Supplier_id int not null,
-  Buyers int not null,
-  Rating int not null,
+  Buyers int default 0,
+  Product_rating int default 0,
   constraint FK_Supplier foreign key(Supplier_id) references Supplier (Supplier_id)
 );
 

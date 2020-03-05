@@ -23,8 +23,11 @@ db.init();
 app.get("/", renderIndex)
 app.get('/api/productListings', getProductListings);
 
+/**
+* returns all of the product listings
+*/
 async function getProductListings(req, res) {
-    res.json(productListings);
+    res.json(await db.showAll('ProductListings'));
 }
 
 // index memory data

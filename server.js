@@ -1,16 +1,26 @@
 const express = require('express');
 const app = express();
-//const db = require('./ModelSQL.js');
+const db = require('./modelSQL.js');
+const mysql = require ('mysql2')
 
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+app.use('/', express.static('public'));
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+ console.log(`app listening on port ${PORT}!`)
+});
+
+app.get("/", renderIndex)
 app.get('/api/productListings', getProductListings);
 
 async function getProductListings(req, res) {
     res.json(productListings);
 }
 
-app.listen(8080);
-
-app.use('/', express.static('client', {'extensions': ['html']}));
+async function renderIndex(req, res) {
+  res.render('index', {data: {}})
+}
 
 let productListings = [
   {

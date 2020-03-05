@@ -10,7 +10,6 @@ async function getProductListings(queryContent) {
   if(queryContent) {
     url = url + '?' + queryContent
   }
-
   const response = await fetch(url);
   console.log(await response.json());
 }

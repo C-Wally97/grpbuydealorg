@@ -1,7 +1,7 @@
 {
-  "name": "grpbuyconcurrency",
+  "name": "grpbuydealorg",
   "version": "1.0.0",
-  "description": "Demo for concurrency with group buying",
+  "description": "Demo for deal organisation within a group buying system.",
   "main": "index.js",
   "scripts": {
     "test": "mysql -u root -p < serverdb.sql",
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/C-Wally97/grpbuyconcurrency#readme",
   "dependencies": {
+    "ejs": "^3.0.1",
     "express": "^4.17.1"
   },
   "devDependencies": {

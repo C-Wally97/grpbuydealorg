@@ -1,6 +1,6 @@
 // npm modules
 const express = require('express');
-const app = express();
+const session = require('express-session');
 const mysql = require('mysql2');
 // our modules
 const db = require('./modelSQL.js');

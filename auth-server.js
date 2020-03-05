@@ -1,3 +1,7 @@
+const express = require('express');
+const session = require('express-session');
+const crypto = require('crypto');
+
 async function login(req, res) {
     const hash = crypto.createHash('md5');
     const userAttempt = req.query.email;

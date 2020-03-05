@@ -1,3 +1,6 @@
+use ProductDatabase;
+
+
 /* supplier */
 insert into Supplier(Name, Address, Town, Postcode) values ("A company", "An address line 1", "A town", "PO40DP");
 

@@ -7,7 +7,7 @@ body {
   height: 100vh;
   display: grid;
   grid-template-columns: 20% 80%;
-  grid-template-rows: 4em auto;
+  grid-template-rows: 4.5em auto;
   grid-template-areas: 
     "header header "
     "sidebar main";
@@ -17,9 +17,10 @@ main {
   grid-area: main;
   overflow-y: scroll;
   background-color: #D5D6D2;
-  padding: 0 3em;
+
 }
 
 nav {
   grid-area: header;
 }
+

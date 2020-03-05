@@ -22,3 +22,11 @@ async function postProductListing(name) {
 }
 
 window.addEventListener("load", boot);
+
+function addCard() {
+  let main = document.getElementById("main-content");
+  let template = document.getElementsByTagName("template")[0];
+  let templateClone = template.content.cloneNode(true);
+  main.appendChild(templateClone);
+}
+

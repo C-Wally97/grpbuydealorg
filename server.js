@@ -32,8 +32,6 @@ app.put('/api/login', auth.login);
 * returns all of the product listings
 */
 async function getProductListings(req, res) {
-  console.log(session.auth);
-  console.log(session.email);
   if(session.auth) {
     console.log(`User: ${session.email} just requested product listings!`);
   } else {

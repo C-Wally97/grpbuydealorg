@@ -17,7 +17,7 @@ async function login(req, res) {
         const currentDate = new Date();
         console.log(`User: ${attempt.Email} just logged in!`);
         session.auth = true;
-        session.email = attempt.email;
+        session.email = attempt.Email;
     } else {
         console.log("Failed auth attempt!");
     }

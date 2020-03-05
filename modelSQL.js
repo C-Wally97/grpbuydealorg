@@ -26,7 +26,19 @@ async function showAll(table) {
   return rows[0];
 }
 
+async function insertProductListing(name, supplier_id) {
+  let query =  'INSERT INTO ProductListings SET ? ;';
+
+  // get today's date
+  let listing_date = new Date();
+  listing_date = listing_date.toISOString().slice(0, 10);
+
+  query = sql.format(query, {name, listing_date, supplier_id});
+  return await sql.query(query);
+}
+
 module.exports = {
   init: init,
-  showAll: showAll
+  showAll: showAll,
+  insertProductListing: insertProductListing
 }

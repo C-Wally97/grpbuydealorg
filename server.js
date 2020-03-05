@@ -22,12 +22,28 @@ db.init();
 // api calls
 app.get("/", renderIndex)
 app.get('/api/productListings', getProductListings);
+app.post('/api/productListing', postProductListing);
 
 /**
 * returns all of the product listings
 */
 async function getProductListings(req, res) {
-    res.json(await db.showAll('ProductListings'));
+  res.json(await db.showAll('ProductListings'));
+}
+
+/**
+* posts a product listing, data in query component
+*/
+async function postProductListing(req, res){
+  const supplier_id = 1;
+  try {
+    const result = await db.insertProductListing(req.query.name, supplier_id);
+    console.log(result);
+    res.sendStatus(200);
+  } catch(e) {
+    console.error(e);
+    res.sendStatus(404);
+  }
 }
 
 // index memory data

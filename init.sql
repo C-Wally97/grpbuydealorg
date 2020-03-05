@@ -2,7 +2,7 @@ drop database if exists ProductDatabase;
 create database ProductDatabase;
 use ProductDatabase;
 
-create table if not exists Supplier (
+create table if not exists Suppliers (
   Supplier_id int primary key auto_increment,
   Supplier_rating int default 0,
   Name varchar(60) not null,
@@ -16,9 +16,8 @@ create table if not exists ProductListings (
   Name varchar(60) not null,
   Listing_date date not null,
   Supplier_id int not null,
-  Buyers int default 0,
   Product_rating int default 0,
-  constraint FK_Supplier foreign key(Supplier_id) references Supplier (Supplier_id)
+  constraint FK_Supplier foreign key(Supplier_id) references Suppliers (Supplier_id)
 );
 
 create table if not exists Users (

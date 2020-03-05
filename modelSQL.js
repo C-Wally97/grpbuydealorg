@@ -17,12 +17,13 @@ async function init() {
 async function allProductListings() {
   // form query
   const productFields = 'ProductListings.Name as ProductName, ProductListings.Listing_Date, ProductListings.Product_Rating';
-  const supplierFields = 'Supplier.Name as SupplierName, Supplier.Supplier_rating';
-  const selectStatement = `SELECT ${productFields}, ${supplierFields} FROM ProductListings `;
-  const supplierJoin = 'INNER JOIN Supplier ON Supplier.Supplier_id = ProductListings.Supplier_id';
-  let query = selectStatement + supplierJoin;
-  console.log(query);
-
+  const supplierFields = 'Suppliers.Name as SupplierName, Suppliers.Supplier_rating';
+  const productListings_Users_Fields = 'COUNT(ProductListings_Users.User_id) as Buyers';
+  const selectStatement = `SELECT ${productFields}, ${supplierFields}, ${productListings_Users_Fields} FROM ProductListings `;
+  const supplierJoin = 'INNER JOIN Suppliers ON Suppliers.Supplier_id = ProductListings.Supplier_id ';
+  const productListings_Users_Join = 'INNER JOIN ProductListings_Users ON ProductListings.Listing_id = ProductListings_Users.Listing_id';
+  let query = selectStatement + supplierJoin + productListings_Users_Join;
+  
   // make query to database
   query = await sql.format(query);
   const rows = await sql.query(query);

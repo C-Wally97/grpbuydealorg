@@ -1,8 +1,10 @@
-// modules
+// npm modules
 const express = require('express');
 const app = express();
+const mysql = require('mysql2');
+// our modules
 const db = require('./modelSQL.js');
-const mysql = require ('mysql2')
+const auth = require('./auth.js');
 
 // server hosting
 app.set('view engine', 'ejs');
@@ -23,6 +25,7 @@ db.init();
 app.get("/", renderIndex)
 app.get('/api/productListings', getProductListings);
 app.post('/api/productListing', postProductListing);
+app.post('/api/login', auth.login);
 
 /**
 * returns all of the product listings

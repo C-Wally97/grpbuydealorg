@@ -1,25 +1,45 @@
 'use strict'
 
 async function boot() {
-  console.log("hi");
+  const productListings = await getProductListings();
+  displayProductListings(productListings);
 }
 
+// api call
 async function getProductListings() {
-  addCard();
   const url = `/api/productListings?cookie=${clientContent.cookie}`;
+
+  const response = await fetch(url);
+  if(response.ok) {
+    return await response.json();
+  } else {
+    console.error("Failed to get products.");
+  }
+}
+
+// displays product listings on page
+function displayProductListings(productListings) {
   const cardContent = document.getElementById("card-content");
-  const response = await fetch(url)
-  .then(
-    function(response){
-      response.json().then(function(productListings) {
-        for (let productListing of productListings) {
-          const eleWrap = document.createElement("li");
-          eleWrap.textContent = productListing;
-          cardContent.append(eleWrap);
-        }
-      })
-    }
-  )
+
+  for(let productListing of productListings) {
+    console.log(productListing);
+
+    addCard();
+
+    const card = document.getElementById('card');
+    card.id = '';
+
+    // display content
+    const title = card.querySelectorAll('.card-title')[0];
+    title.textContent = productListing.ProductName;
+  }
+}
+
+function addCard() {
+  const main = document.getElementById("main-content");
+  const template = document.getElementsByTagName("template")[0];
+  const templateClone = template.content.cloneNode(true);
+  main.appendChild(templateClone);
 }
 
 async function postProductListing(name) {
@@ -31,13 +51,6 @@ async function postProductListing(name) {
   } else {
     console.error('failed to list product');
   }
-}
-
-function addCard() {
-  const main = document.getElementById("main-content");
-  const template = document.getElementsByTagName("template")[0];
-  const templateClone = template.content.cloneNode(true);
-  main.appendChild(templateClone);
 }
 
 window.addEventListener("load", boot);

@@ -30,6 +30,7 @@ create table if not exists Users (
 create table if not exists ProductListings_Users (
   User_id int,
   Listing_id int,
+  optIn_date date not null,
   primary key (User_id, Listing_id),
   constraint fk_01 foreign key(User_id) references Users (User_id),
   constraint fk_02 foreign key(Listing_id) references ProductListings (Listing_id)

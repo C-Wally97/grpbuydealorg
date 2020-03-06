@@ -72,7 +72,6 @@ function getClient(field, value) {
 function hashString(string) {
   const hash = crypto.createHash('md5');
   hash.update(string);
-  //return string;
   return hash.digest('hex');
 }
 

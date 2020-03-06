@@ -16,13 +16,12 @@ async function init() {
 
 async function allProductListings() {
   // form query
-  const productFields = 'ProductListings.Name as ProductName, ProductListings.Listing_Date, ProductListings.Product_Rating';
+  const productFields = 'ProductListings.Listing_id, ProductListings.Name as ProductName, ProductListings.Listing_Date, ProductListings.Product_Rating';
   const supplierFields = 'Suppliers.Name as SupplierName, Suppliers.Supplier_rating';
-  const productListings_Users_Fields = 'COUNT(ProductListings_Users.User_id) as Buyers';
-  const selectStatement = `SELECT ${productFields}, ${supplierFields}, ${productListings_Users_Fields} FROM ProductListings `;
+  const selectStatement = `SELECT ${productFields}, ${supplierFields} FROM ProductListings `;
   const supplierJoin = 'INNER JOIN Suppliers ON Suppliers.Supplier_id = ProductListings.Supplier_id ';
-  const productListings_Users_Join = 'INNER JOIN ProductListings_Users ON ProductListings.Listing_id = ProductListings_Users.Listing_id';
-  let query = selectStatement + supplierJoin + productListings_Users_Join;
+  let query = selectStatement + supplierJoin;
+  console.log(query);
 
   // make query to database
   query = await sql.format(query);
@@ -30,8 +29,16 @@ async function allProductListings() {
   return rows[0];
 }
 
+// returns the amount of buyers for a specific listing_id
+async function getBuyersTotal(listing_id) {
+  let query = `SELECT COUNT(User_id) as Buyers FROM ProductListings_Users WHERE Listing_id = ${listing_id};`;
+  query = sql.format(query);
+  const rows = await sql.query(query);
+  return rows[0][0];
+}
+
 async function insertProductListing(name, supplier_id) {
-  const query =  'INSERT INTO ProductListings SET ? ;';
+  const query = 'INSERT INTO ProductListings SET ? ;';
 
   // get today's date
   let listing_date = new Date();
@@ -51,6 +58,7 @@ async function getUser(email, password) {
 module.exports = {
   init: init,
   allProductListings: allProductListings,
+  getBuyersTotal: getBuyersTotal,
   insertProductListing: insertProductListing,
   getUser: getUser
 }

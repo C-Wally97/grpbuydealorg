@@ -23,7 +23,7 @@ async function renderIndex(req, res) {
 db.init();
 
 // api calls
-app.get("/", renderIndex)
+app.get("/", renderIndex);
 app.get('/api/productListings', getProductListings);
 app.post('/api/productListing', postProductListing);
 // auth stuff
@@ -42,6 +42,13 @@ async function getProductListings(req, res) {
   }
 
   let productListings = await db.allProductListings();
+  // get buyers
+  for(let productListing of productListings) {
+    const buyers = (await db.getBuyersTotal(productListing.Listing_id)).Buyers;
+    productListing['Buyers'] = buyers;
+    // delete unrequired key
+    delete productListing["Listing_id"];
+  }
   // transform listings
 
   res.json(productListings);

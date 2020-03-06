@@ -11,7 +11,7 @@ async function login(email, password) {
 
   const response = await fetch(url, {method: 'post'});
   if(response.ok) {
-    // extract cookie
+    // extract content
     clientContent = await response.json();
 
     const name = document.createElement('p');

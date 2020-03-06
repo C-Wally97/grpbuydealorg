@@ -12,5 +12,5 @@ insert into Users(Email, Password, Name) values("myEmail@domain.com", "deb1536f4
 insert into Users(Email, Password, Name) values("myEmail1@domain.com", "aa7124220a41cca0c0d8a105bf5483fa", "A guy1");
 
 /* product_listings - users */
-insert into ProductListings_Users(Listing_id, User_id) values (1, 1);
-insert into ProductListings_Users(Listing_id, User_id) values (2, 1);
+insert into ProductListings_Users(Listing_id, User_id, optIn_date) values (1, 1, "05/01/20");
+insert into ProductListings_Users(Listing_id, User_id, optIn_date) values (2, 1, "08/01/20");

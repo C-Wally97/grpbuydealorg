@@ -50,7 +50,7 @@ async function getProductListings(req, res) {
 /**
 * posts a product listing, data in query component
 */
-async function postProductListing(req, res){
+async function postProductListing(req, res) {
   const supplier_id = 1;
   try {
     const result = await db.insertProductListing(req.query.name, supplier_id);
@@ -60,4 +60,10 @@ async function postProductListing(req, res){
     console.error(e);
     res.sendStatus(404);
   }
+}
+
+app.get('/api/hashString', getHashedString);
+// debug
+async function getHashedString(req, res) {
+  res.send(auth.hashString(req.query.string));
 }

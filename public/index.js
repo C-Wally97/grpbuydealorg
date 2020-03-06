@@ -6,7 +6,7 @@ async function boot() {
 
 async function getProductListings() {
   addCard();
-  const url = `/api/productListings?cookie=${cookie}`;
+  const url = `/api/productListings?cookie=${clientContent.cookie}`;
   const cardContent = document.getElementById("card-content");
   const response = await fetch(url)
   .then(

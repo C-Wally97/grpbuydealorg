@@ -52,7 +52,7 @@ function generateCookie() {
   const hash = crypto.createHash('md5');
   const id = (Math.floor(Math.random() * 1000000000)).toString();
   hash.update(id);
-  return id;
+  return hash.digest('hex');
 }
 
 function getClients() {
@@ -68,8 +68,17 @@ function getClient(field, value) {
   }
 }
 
+// hashes string for debugging
+function hashString(string) {
+  const hash = crypto.createHash('md5');
+  hash.update(string);
+  //return string;
+  return hash.digest('hex');
+}
+
 module.exports = {
   login: login,
   getClients: getClients,
-  getClient: getClient
+  getClient: getClient,
+  hashString: hashString
 }

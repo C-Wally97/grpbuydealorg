@@ -6,18 +6,16 @@ async function boot() {
 
 async function getProductListings() {
   addCard();
-  const url = '/api/productListings';
-  const cardContent = document.getElementById("card-content")
+  const url = `/api/productListings?cookie=${cookie}`;
+  const cardContent = document.getElementById("card-content");
   const response = await fetch(url)
   .then(
     function(response){
-      response.json().then(function(data){
-        for (var i = 0; i < data.length; i++) {
-          for (let ele of data) {
-            let eleWrap = document.createElement("li")
-            eleWrap.textContent = ele
-            cardContent.append(eleWrap)
-          }
+      response.json().then(function(productListings) {
+        for (let productListing of productListings) {
+          const eleWrap = document.createElement("li");
+          eleWrap.textContent = productListing;
+          cardContent.append(eleWrap);
         }
       })
     }
@@ -35,11 +33,11 @@ async function postProductListing(name) {
   }
 }
 
-window.addEventListener("load", boot);
-
 function addCard() {
-  let main = document.getElementById("main-content");
-  let template = document.getElementsByTagName("template")[0];
-  let templateClone = template.content.cloneNode(true);
+  const main = document.getElementById("main-content");
+  const template = document.getElementsByTagName("template")[0];
+  const templateClone = template.content.cloneNode(true);
   main.appendChild(templateClone);
 }
+
+window.addEventListener("load", boot);

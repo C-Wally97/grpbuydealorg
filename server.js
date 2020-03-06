@@ -26,18 +26,25 @@ db.init();
 app.get("/", renderIndex)
 app.get('/api/productListings', getProductListings);
 app.post('/api/productListing', postProductListing);
-app.put('/api/login', auth.login);
+// auth stuff
+app.post('/api/login', auth.login);
 
 /**
 * returns all of the product listings
 */
 async function getProductListings(req, res) {
-  if(session.auth) {
-    console.log(`User: ${session.email} just requested product listings!`);
+  const client = auth.getClient('cookie', req.query.cookie);
+
+  if(client) {
+    console.log(`User: ${client.email} just requested product listings!`);
   } else {
     console.log("An anonymous user just requested product listings!");
   }
-  res.json(await db.allProductListings());
+
+  let productListings = await db.allProductListings();
+  // transform listings
+
+  res.json(productListings);
 }
 
 /**
@@ -54,15 +61,3 @@ async function postProductListing(req, res){
     res.sendStatus(404);
   }
 }
-
-// index memory data
-let productListings = [
-  {
-    'id': 1,
-    'product': 'Gamer shades',
-    'date': '01/02/2020',
-    'supplier': 'GamerSwag.com',
-    'userAmount': 42,
-    'rating': 420
-  }
-];

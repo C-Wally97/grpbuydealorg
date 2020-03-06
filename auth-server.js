@@ -1,28 +1,75 @@
 // npm modules
 const express = require('express');
-const session = require('express-session');
+//const session = require('express-session');
 const crypto = require('crypto');
 // our modules
 const db = require('./modelSQL.js');
 
+let clients = [];
+// fields, cookie, email
+
 async function login(req, res) {
-    const hash = crypto.createHash('md5');
     const email = req.query.email;
-    const password = req.query.password;
+    const client = getClient('email', email);
 
-    hash.update(password);
-
-    const attempt = await db.getUser(email, hash.digest('hex'));
-    if(attempt instanceof Error === false) {
-        const currentDate = new Date();
-        console.log(`User: ${attempt.Email} just logged in!`);
-        session.auth = true;
-        session.email = attempt.Email;
+    if(client) {
+      // check if email is in clients first
+      res.send(client.cookie);
     } else {
-        console.log("Failed auth attempt!");
+      // otherwise generate cookie
+      const hash = crypto.createHash('md5');
+      const password = req.query.password;
+
+      hash.update(password);
+
+      const attempt = await db.getUser(email, hash.digest('hex'));
+      if(attempt instanceof Error === false) {
+          const currentDate = new Date();
+          // generate cookie
+          const cookie = generateCookie();
+
+          // form response content
+          const responseContent = {
+            'cookie': cookie,
+            'email': attempt.Email,
+            'name': attempt.Name
+          };
+
+          // add new client to clients
+          clients.push(responseContent);
+          // respond with cookie
+          res.json(responseContent);
+      } else {
+          console.log("Failed auth attempt!");
+          // respond with failure status
+          res.sendStatus(404);
+      }
     }
 }
 
+// generates cookie
+function generateCookie() {
+  const hash = crypto.createHash('md5');
+  const id = (Math.floor(Math.random() * 1000000000)).toString();
+  hash.update(id);
+  return id;
+}
+
+function getClients() {
+  return clients;
+}
+
+// gets client using a field and a value
+function getClient(field, value) {
+  for(let client of clients) {
+    if(client[field] == value) {
+      return client;
+    }
+  }
+}
+
 module.exports = {
-  login: login
+  login: login,
+  getClients: getClients,
+  getClient: getClient
 }

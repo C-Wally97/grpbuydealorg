@@ -8,7 +8,7 @@ insert into ProductListings(Name, Listing_date, Supplier_id) values ("A product"
 insert into ProductListings(Name, Listing_date, Supplier_id) values ("The next product", "02/01/20", 1);
 
 /* users */
-insert into Users(Email, Password) values("myEmail@domain.com", "deb1536f480475f7d593219aa1afd74c");
+insert into Users(Email, Password, Name) values("myEmail@domain.com", "deb1536f480475f7d593219aa1afd74c", "A guy");
 
 /* product_listings - users */
 insert into ProductListings_Users(Listing_id, User_id) values (1, 1);

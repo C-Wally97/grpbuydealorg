@@ -23,7 +23,7 @@ async function allProductListings() {
   const supplierJoin = 'INNER JOIN Suppliers ON Suppliers.Supplier_id = ProductListings.Supplier_id ';
   const productListings_Users_Join = 'INNER JOIN ProductListings_Users ON ProductListings.Listing_id = ProductListings_Users.Listing_id';
   let query = selectStatement + supplierJoin + productListings_Users_Join;
-  
+
   // make query to database
   query = await sql.format(query);
   const rows = await sql.query(query);
@@ -42,9 +42,9 @@ async function insertProductListing(name, supplier_id) {
 }
 
 async function getUser(email, password) {
-    const query = `SELECT * FROM Users WHERE Email = "${email}" AND Password = "${password}" ;`;
-    const formattedQuery = sql.format(query);
-    const rows = await sql.query(formattedQuery);
+    let query = `SELECT * FROM Users WHERE Email = "${email}" AND Password = "${password}" ;`;
+    query = sql.format(query);
+    const rows = await sql.query(query);
     return rows[0][0];
 }
 

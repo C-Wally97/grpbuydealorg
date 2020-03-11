@@ -26,6 +26,8 @@ db.init();
 app.get("/", renderIndex);
 app.get('/api/productListings', getProductListings);
 app.post('/api/productListing', postProductListing);
+app.put('/api/upvote', upvote);
+app.put('/api/downvote', downvote);
 // auth stuff
 app.post('/api/login', auth.login);
 
@@ -46,8 +48,6 @@ async function getProductListings(req, res) {
   for(let productListing of productListings) {
     const buyers = (await db.getBuyersTotal(productListing.Listing_id)).Buyers;
     productListing['Buyers'] = buyers;
-    // delete unrequired key
-    delete productListing["Listing_id"];
   }
   // transform listings
 
@@ -65,6 +65,30 @@ async function postProductListing(req, res) {
     res.sendStatus(200);
   } catch(e) {
     console.error(e);
+    res.sendStatus(404);
+  }
+}
+
+/**
+* updates rating of a product listing
+*/
+async function upvote(req, res) {
+  const listing_id = req.query.listing_id;
+  try {
+    const result = await db.updateRating(listing_id, 1);
+    res.sendStatus(200);
+  } catch(e) {
+    console.error(e);
+    res.sendStatus(404);
+  }
+}
+async function downvote(req, res) {
+  const listing_id = req.query.listing_id;
+  try {
+    const result = await db.updateRating(listing_id, -1);
+    res.sendStatus(200);
+  } catch(e) {
+    //console.error(e);
     res.sendStatus(404);
   }
 }

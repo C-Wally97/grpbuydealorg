@@ -22,8 +22,6 @@ function displayProductListings(productListings) {
   const cardContent = document.getElementById("card-content");
 
   for(let productListing of productListings) {
-    console.log(productListing);
-
     addCard();
 
     const card = document.getElementById('card');
@@ -50,6 +48,30 @@ async function postProductListing(name) {
     console.log("product listing posted!");
   } else {
     console.error('failed to list product');
+  }
+}
+
+// could be changed to be on click event func
+async function upvoteListing(listing_id) {
+  const url = `/api/upvote?listing_id=${listing_id}`;
+
+  const response = await fetch(url, {method: 'put'});
+  if(response.ok) {
+    console.log("product listing rating upvoted!");
+  } else {
+    console.error('failed to upvote product');
+  }
+}
+
+// could be changed to be on click event func
+async function downvoteListing(listing_id) {
+  const url = `/api/downvote?listing_id=${listing_id}`;
+
+  const response = await fetch(url, {method: 'put'});
+  if(response.ok) {
+    console.log("product listing rating downvoted!");
+  } else {
+    console.error('failed to downvote product');
   }
 }
 

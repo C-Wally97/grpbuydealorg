@@ -21,7 +21,6 @@ async function allProductListings() {
   const selectStatement = `SELECT ${productFields}, ${supplierFields} FROM ProductListings `;
   const supplierJoin = 'INNER JOIN Suppliers ON Suppliers.Supplier_id = ProductListings.Supplier_id ';
   let query = selectStatement + supplierJoin;
-  console.log(query);
 
   // make query to database
   query = await sql.format(query);
@@ -48,6 +47,20 @@ async function insertProductListing(name, supplier_id) {
   return await sql.query(query);
 }
 
+async function updateRating(Listing_id, direction) {
+  // get current rating
+  let getQuery = `SELECT Product_Rating FROM ProductListings WHERE Listing_id = ${Listing_id};`;
+  getQuery = sql.format(getQuery);
+
+  let Product_Rating = (await sql.query(getQuery))[0][0].Product_Rating;
+  Product_Rating = Product_Rating + direction;
+
+  let query = `UPDATE ProductListings SET ? WHERE Listing_id = ${Listing_id};`;
+
+  query = sql.format(query, {Listing_id, Product_Rating});
+  return await sql.query(query);
+}
+
 async function getUser(email, password) {
     let query = `SELECT * FROM Users WHERE Email = "${email}" AND Password = "${password}" ;`;
     query = sql.format(query);
@@ -60,5 +73,6 @@ module.exports = {
   allProductListings: allProductListings,
   getBuyersTotal: getBuyersTotal,
   insertProductListing: insertProductListing,
+  updateRating: updateRating,
   getUser: getUser
 }

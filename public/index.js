@@ -22,7 +22,7 @@ function displayProductListings(productListings) {
   const cardContent = document.getElementById("card-content");
 
   for(let productListing of productListings) {
-    addCard();
+    addCard(productListing);
 
     const card = document.getElementById('card');
     card.id = '';
@@ -33,11 +33,19 @@ function displayProductListings(productListings) {
   }
 }
 
-function addCard() {
+function addCard(data) {
   const main = document.getElementById("main-content");
   const template = document.getElementsByTagName("template")[0];
   const templateClone = template.content.cloneNode(true);
   main.appendChild(templateClone);
+  const cardContent = document.getElementById("card-content");
+  const dataWrap = document.getElementById("dataWrap");
+  dataWrap.setAttribute("id", "completed")
+  for (let [key, value] of Object.entries(data)) {
+    let ele = document.createElement('li');
+    ele.textContent = (`${key}: ${value}`);
+    dataWrap.append(ele)
+  }
 }
 
 async function postProductListing(name) {

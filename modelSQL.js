@@ -14,18 +14,28 @@ async function init() {
   sql = await mysql.createConnection(config.mysql);
 }
 
+// gets productListing with given id
+async function productListing(listing_id) {
+  let query = getProductListingQuery();
+  query = `${query} WHERE Listing_id = ${listing_id};`;
+  query = sql.format(query);
+  return (await sql.query(query))[0][0];
+}
+
 async function allProductListings() {
+  let query = getProductListingQuery() + ';';
+  query = sql.format(query);
+  const rows = await sql.query(query);
+  return rows[0];
+}
+
+function getProductListingQuery() {
   // form query
   const productFields = 'ProductListings.Listing_id, ProductListings.Name as ProductName, ProductListings.Listing_Date, ProductListings.Product_Rating';
   const supplierFields = 'Suppliers.Name as SupplierName, Suppliers.Supplier_rating';
   const selectStatement = `SELECT ${productFields}, ${supplierFields} FROM ProductListings `;
-  const supplierJoin = 'INNER JOIN Suppliers ON Suppliers.Supplier_id = ProductListings.Supplier_id ';
-  let query = selectStatement + supplierJoin;
-
-  // make query to database
-  query = await sql.format(query);
-  const rows = await sql.query(query);
-  return rows[0];
+  const supplierJoin = 'INNER JOIN Suppliers ON Suppliers.Supplier_id = ProductListings.Supplier_id';
+  return selectStatement + supplierJoin;
 }
 
 // returns the amount of buyers for a specific listing_id
@@ -70,6 +80,7 @@ async function getUser(email, password) {
 
 module.exports = {
   init: init,
+  productListing: productListing,
   allProductListings: allProductListings,
   getBuyersTotal: getBuyersTotal,
   insertProductListing: insertProductListing,

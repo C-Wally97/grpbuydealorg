@@ -24,6 +24,7 @@ db.init();
 
 // api calls
 app.get("/", renderIndex);
+app.get('/api/productListing', getProductListing);
 app.get('/api/productListings', getProductListings);
 app.post('/api/productListing', postProductListing);
 app.put('/api/upvote', upvote);
@@ -31,6 +32,23 @@ app.put('/api/downvote', downvote);
 // auth stuff
 app.post('/api/login', auth.login);
 
+/**
+* returns product listing with given id
+*/
+async function getProductListing(req, res) {
+  const listing_id = req.query.listing_id;
+
+  const productListing = await db.productListing(listing_id);
+
+  const buyers = (await db.getBuyersTotal(listing_id)).Buyers;
+  productListing['Buyers'] = buyers;
+
+  if(productListing) {
+    res.json(productListing);
+  } else {
+    res.sendStatus(404);
+  }
+}
 /**
 * returns all of the product listings
 */

@@ -102,7 +102,7 @@ async function upvoteListing(ev) {
     // redisplay rating
     const rating = (await getProductListing(listing_id)).Product_Rating;
     const card = document.getElementById(listing_id);
-    card.querySelector('.Product_Rating').textContent = rating + 1;
+    card.querySelector('.Product_Rating').textContent = rating;
   } else {
     console.error('failed to upvote product');
   }
@@ -120,7 +120,7 @@ async function downvoteListing(ev) {
     // redisplay rating
     const rating = (await getProductListing(listing_id)).Product_Rating;
     const card = document.getElementById(listing_id);
-    card.querySelector('.Product_Rating').textContent = rating - 1;
+    card.querySelector('.Product_Rating').textContent = rating;
   } else {
     console.error('failed to downvote product');
   }

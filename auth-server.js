@@ -8,7 +8,7 @@ const crypto = require('crypto');
 const db = require('./modelSQL.js');
 
 let clients = [];
-// fields, cookie, email
+// fields: cookie, email
 
 async function login(req, res) {
     const email = req.query.email;

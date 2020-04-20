@@ -57,6 +57,7 @@ async function insertProductListing(name, supplier_id) {
   return await sql.query(query);
 }
 
+// updates rating of a single listing
 async function updateRating(Listing_id, direction) {
   // get current rating
   let getQuery = `SELECT Product_Rating FROM ProductListings WHERE Listing_id = ${Listing_id};`;
@@ -71,6 +72,19 @@ async function updateRating(Listing_id, direction) {
   return await sql.query(query);
 }
 
+// gets the metric weightings for one user
+async function getWeightings(email) {
+  let query = `SELECT Product_rating_weight, Supplier_rating_weight, Time_weight FROM Users WHERE Email = "${email}"`;
+
+  query = sql.format(query);
+  return (await sql.query(query))[0][0];
+}
+
+async function updateWeightings(email, Product_rating_weight, supplier_rating_weight, time_weight) {
+  console.log("update weighting todo...");
+}
+
+// auth stuff
 async function getUser(email, password) {
     let query = `SELECT * FROM Users WHERE Email = "${email}" AND Password = "${password}" ;`;
     query = sql.format(query);
@@ -85,5 +99,7 @@ module.exports = {
   getBuyersTotal: getBuyersTotal,
   insertProductListing: insertProductListing,
   updateRating: updateRating,
+  getWeightings: getWeightings,
+  updateWeightings: updateWeightings,
   getUser: getUser
 }

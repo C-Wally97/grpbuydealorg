@@ -29,6 +29,9 @@ app.get('/api/productListings', getProductListings);
 app.post('/api/productListing', postProductListing);
 app.put('/api/upvote', upvote);
 app.put('/api/downvote', downvote);
+// aggregation
+app.get('/api/weightings', getWeightings);
+app.put('/api/weightings', updateWeightings);
 // auth stuff
 app.post('/api/login', auth.login);
 
@@ -67,9 +70,56 @@ async function getProductListings(req, res) {
     const buyers = (await db.getBuyersTotal(productListing.Listing_id)).Buyers;
     productListing['Buyers'] = buyers;
   }
-  // transform listings
+
+  if(client) {
+    // aggregateContent based on user weightings
+    productListings = await aggregateContent(productListings, client);
+  }
 
   res.json(productListings);
+}
+
+async function aggregateContent(productListings, client) {
+  const weightings = await db.getWeightings(client.email);
+  /*
+  Product_rating_weight int default 30,
+  Supplier_rating_weight int default 30,
+  Time_weight int default 30
+  */
+  const total = weightings.Product_rating_weight + weightings.Supplier_rating_weight + weightings.Time_weight;
+  console.log(total);
+  const p_ratio = weightings.Product_rating_weight / total;
+  const s_ratio = weightings.Supplier_rating_weight / total;
+  const t_ratio = weightings.Time_weight / total;
+  console.log(p_ratio);
+  console.log(s_ratio);
+  console.log(t_ratio);
+
+  // assign overall rating to each productListing
+  // a productListing has a total rating out of 100
+  for(let productListing of productListings) {
+    console.log(productListing);
+  }
+
+  return productListings;
+}
+
+async function getWeightings(req, res) {
+  const client = auth.getClient('cookie', req.query.cookie);
+
+  console.log("getting weightings for user: " + client.email);
+
+  const weightings = await db.getWeightings(client.email);
+
+  console.log("weightings are");
+  console.log(weightings);
+  return weightings;
+}
+
+async function updateWeightings(req, res) {
+  const client = auth.getClient('cookie', req.query.cookie);
+
+  console.log("updating weightings for user: " + client.email);
 }
 
 /**

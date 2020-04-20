@@ -69,7 +69,7 @@ async function downvoteListing(ev) {
 
 // gets weightings
 async function getWeightings() {
-  const url = `/api/weighting?cookie=${clientContent.cookie}`;
+  const url = `/api/weightings?cookie=${clientContent.cookie}`;
 
   const response = await fetch(url);
   if(response.ok) {

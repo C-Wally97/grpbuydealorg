@@ -161,10 +161,7 @@ async function getWeightings(req, res) {
   console.log("getting weightings for user: " + client.email);
 
   const weightings = await db.getWeightings(client.email);
-
-  console.log("weightings are");
-  console.log(weightings);
-  return weightings;
+  res.json(weightings);
 }
 
 async function updateWeightings(req, res) {

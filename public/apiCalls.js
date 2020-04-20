@@ -67,6 +67,18 @@ async function downvoteListing(ev) {
   }
 }
 
+// gets weightings
+async function getWeightings() {
+  const url = `/api/weighting?cookie=${clientContent.cookie}`;
+
+  const response = await fetch(url);
+  if(response.ok) {
+    return response.json();
+  } else {
+    console.error("failed to get weightings");
+  }
+}
+
 // updates user controlled weightings
 async function updateWeightings(productRating, supplierRating, time) {
   let url = '/api/weighting?';

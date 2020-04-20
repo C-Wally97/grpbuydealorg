@@ -24,3 +24,9 @@ nav {
   grid-area: header;
 }
 
+#modal_Wrapper {
+  display: block;
+  margin: 0 auto;
+  width: 80%;
+  padding: 2em;
+}

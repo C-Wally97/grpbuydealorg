@@ -1,8 +1,14 @@
 'use strict'
 
+document.addEventListener('DOMContentLoaded', function() {
+  let modal = document.querySelectorAll('.modal');
+  let modalInit = M.Modal.init(modal);
+});
+
 async function boot() {
   const productListings = await getProductListings();
   displayProductListings(productListings);
+  // init modal
 }
 
 // displays product listings on page

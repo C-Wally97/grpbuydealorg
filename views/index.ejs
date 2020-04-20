@@ -16,7 +16,7 @@
 <body>
   <nav>
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo right">Logo</a>
+      <a href="#" class="brand-logo right"><button class="waves-effect waves-light btn modal-trigger" href="#myModal" type="submit">Log in</button></a>
       <ul id="nav-mobile" class="left hide-on-med-and-down">
         <li><a href="#">nav 1</a></li>
         <li><a href="#">nav 2</a></li>
@@ -28,6 +28,18 @@
   <main id="main-content">
     <button onclick=addCard()>add a card</button>
     <!-- main content here -->
+    <div id="myModal" class="modal">
+      <div id="modal_Wrapper">
+          <div class="row">
+            <label for="user">User Name</label>
+            <input name="user" id="user_name" type="text" class="validate">
+          </div>
+          <div class="row">
+            <label for="password">Password</label>
+            <input id="password" type="password" class="validate">
+          </div>
+          <button onclick=login() class="waves-effect btn modal-close">Submit</button>
+      </div>
   </main>
 </body>
 

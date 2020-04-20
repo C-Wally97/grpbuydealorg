@@ -6,9 +6,10 @@ let clientContent = {
   'name': null
 };
 
-async function login(email, password) {
+async function login() {
+  let email = document.getElementById("user_name").value
+  let password = document.getElementById("password").value
   const url = `/api/login?email=${email}&password=${password}`;
-
   const response = await fetch(url, {method: 'post'});
   if(response.ok) {
     // extract content

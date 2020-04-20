@@ -81,7 +81,7 @@ async function getWeightings(email) {
 }
 
 async function updateWeightings(email, Product_rating_weight, Supplier_rating_weight, Time_weight) {
-  let query = `UPDATE User SET ? WHERE Email = "${email}"`;
+  let query = `UPDATE Users SET ? WHERE Email = "${email}"`;
 
   query = sql.format(query, {Product_rating_weight, Supplier_rating_weight, Time_weight});
   return await sql.query(query);

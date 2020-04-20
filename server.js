@@ -168,7 +168,7 @@ async function updateWeightings(req, res) {
   const client = auth.getClient('cookie', req.query.cookie);
 
   try {
-    const result = await db.updateWeightings(client.email, req.query.product_weight, req.query.supplierRating, req.query.time_weight);
+    const result = await db.updateWeightings(client.email, req.query.product_weight, req.query.supplier_weight, req.query.time_weight);
     res.sendStatus(200);
   } catch(e) {
     console.error(e);

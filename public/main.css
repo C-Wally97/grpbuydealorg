@@ -20,6 +20,10 @@ main {
 
 }
 
+#sidebar-content {
+    grid-area: sidebar;
+}
+
 nav {
   grid-area: header;
 }

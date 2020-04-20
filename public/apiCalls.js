@@ -70,10 +70,24 @@ async function downvoteListing(ev) {
 // gets weightings
 async function getWeightings() {
   const url = `/api/weightings?cookie=${clientContent.cookie}`;
-
   const response = await fetch(url);
+  let data = await response.json()
   if(response.ok) {
-    return response.json();
+    let keys = Object.keys(data)
+    let rangeFields = document.querySelector("#rangeFields")
+    console.log(rangeFields);
+    for (const key in keys) {
+        const range = document.createElement("p")
+        range.id = key
+        range.class = 'range-field'
+        let rangeStr = "";
+        rangeStr = rangeStr + `<label for='${keys[key]}'>${keys[key]}</label>`
+        rangeStr = rangeStr + `<input id='${keys[key]}' name='${keys[key]}' type='range' min='0' max='100'/>`
+        range.innerHTML = rangeStr;
+        rangeFields.append(range);
+        let rangeValue = document.getElementById(keys[key])
+        rangeValue.value = data[keys[key]]
+    }
   } else {
     console.error("failed to get weightings");
   }

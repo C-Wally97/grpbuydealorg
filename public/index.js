@@ -63,4 +63,5 @@ function addCard(data) {
   main.appendChild(templateClone);
 }
 
+
 window.addEventListener("load", boot);

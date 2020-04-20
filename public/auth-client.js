@@ -7,17 +7,15 @@ let clientContent = {
 };
 
 async function login() {
-  let email = document.getElementById("user_name").value
-  let password = document.getElementById("password").value
+  let email = document.getElementById("user_name").value;
+  let password = document.getElementById("password").value;
   const url = `/api/login?email=${email}&password=${password}`;
   const response = await fetch(url, {method: 'post'});
+  let nameContent = document.getElementById("nameContent");
   if(response.ok) {
     // extract content
     clientContent = await response.json();
-
-    const name = document.createElement('p');
-    document.body.appendChild(name);
-    name.textContent = `Hello ${clientContent.name}!`;
+    nameContent.textContent = `Hello ${clientContent.name}!`;
   } else {
     console.log('failure');
   }

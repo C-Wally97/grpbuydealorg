@@ -16,7 +16,7 @@ async function login(req, res) {
 
     if(client) {
       // check if email is in clients first
-      res.send(client.cookie);
+      res.json(client);
     } else {
       // otherwise generate cookie
       const hash = crypto.createHash('md5');

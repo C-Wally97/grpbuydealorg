@@ -77,13 +77,23 @@ async function getWeightings() {
     let rangeFields = document.querySelector("#rangeFields")
     console.log(rangeFields);
     for (const key in keys) {
-        const range = document.createElement("p")
-        range.id = key
-        range.class = 'range-field'
-        let rangeStr = "";
-        rangeStr = rangeStr + `<label for='${keys[key]}'>${keys[key]}</label>`
-        rangeStr = rangeStr + `<input id='${keys[key]}' name='${keys[key]}' type='range' min='0' max='100'/>`
-        range.innerHTML = rangeStr;
+        const range = document.createElement("p");
+        range.id = key;
+        range.class = 'range-field';
+
+        const label = document.createElement('label');
+        range.appendChild(label);
+        label.setAttribute('for', keys[key]);
+        label.textContent = keys[key];
+        const input = document.createElement('input');
+        range.appendChild(input);
+        input.id = keys[key];
+        input.classList.add('weighting-slider');
+        input.setAttribute('name', keys[key]);
+        input.setAttribute('type', 'range');
+        input.min = 0;
+        input.max = 100;
+
         rangeFields.append(range);
         let rangeValue = document.getElementById(keys[key])
         rangeValue.value = data[keys[key]]

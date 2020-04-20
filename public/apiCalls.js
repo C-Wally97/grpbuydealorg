@@ -80,9 +80,9 @@ async function getWeightings() {
 }
 
 // updates user controlled weightings
-async function updateWeightings(productRating, supplierRating, time) {
+async function updateWeightings(product_weight, supplier_weight, time_weight) {
   let url = '/api/weighting?';
-  url += `productRating=${productRating}&supplierRating=${supplierRating}&time=${time}`;
+  url += `product_weight=${product_weight}&supplier_weight=${supplierRating}&time_weight=${time_weight}`;
 
   const response = await fetch(url, {method: 'put'});
   if(response.ok) {

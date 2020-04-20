@@ -80,8 +80,11 @@ async function getWeightings(email) {
   return (await sql.query(query))[0][0];
 }
 
-async function updateWeightings(email, Product_rating_weight, supplier_rating_weight, time_weight) {
-  console.log("update weighting todo...");
+async function updateWeightings(email, Product_rating_weight, Supplier_rating_weight, Time_weight) {
+  let query = `UPDATE User SET ? WHERE Email = "${email}"`;
+
+  query = sql.format(query, {Product_rating_weight, Supplier_rating_weight, Time_weight});
+  return await sql.query(query);
 }
 
 // auth stuff

@@ -107,3 +107,41 @@ async function createNewAccount(email, password, name, userType, productRating, 
     console.error('failed to create account');
   }
 }
+
+function mergeSort(productListings) {
+  // split array in half and then sort out halves
+  if(productListings.length > 1) {
+    const mid = Math.floor(productListings.length / 2);
+    const l = productListings.slice(0, mid);
+    const r = productListings.slice(mid);
+
+    l = mergeSort(l);
+    mergeSort(r);
+
+    let i = 0;
+    let j = 0;
+    let k = 0;
+
+    while(i < l.length && j < r.length) {
+      if(l[i].Score < r[j].Score) {
+        productListings[k] = l[i];
+        i++;
+      } else {
+        productListings[k] = r[j];
+        j++;
+      }
+      k++;
+    }
+
+    while(i < l.length) {
+      productListings[k] = l[i];
+      i++;
+      k++;
+    }
+    while(j < r.length) {
+      productListings[k] = r[j];
+      j++;
+      k++;
+    }
+  }
+}

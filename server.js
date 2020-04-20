@@ -87,21 +87,72 @@ async function aggregateContent(productListings, client) {
   Time_weight int default 30
   */
   const total = weightings.Product_rating_weight + weightings.Supplier_rating_weight + weightings.Time_weight;
-  console.log(total);
-  const p_ratio = weightings.Product_rating_weight / total;
-  const s_ratio = weightings.Supplier_rating_weight / total;
-  const t_ratio = weightings.Time_weight / total;
-  console.log(p_ratio);
-  console.log(s_ratio);
-  console.log(t_ratio);
+  const product_ratio = weightings.Product_rating_weight / total;
+  const supplier_ratio = weightings.Supplier_rating_weight / total;
+  const time_ratio = weightings.Time_weight / total;
 
   // assign overall rating to each productListing
   // a productListing has a total rating out of 100
   for(let productListing of productListings) {
     console.log(productListing);
+
+    // get days passed since a product was listed
+    const currentDate = new Date();
+    const timeDiff = Math.abs(currentDate - productListing.Listing_Date);
+    const daysDiff = 1 / Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) * 100;
+
+    let score = 0;
+    // product rating
+    score += productListing.Product_Rating * product_ratio;
+    // supplier rating
+    score += productListing.Supplier_rating * supplier_ratio;
+    // time
+    score += daysDiff * time_ratio;
+
+    productListing['Score'] = score;
   }
 
+  mergeSort(productListings);
+
   return productListings;
+}
+
+function mergeSort(productListings) {
+  // split array in half and then sort out halves
+  if(productListings.length > 1) {
+    const mid = Math.floor(productListings.length / 2);
+    const l = productListings.slice(0, mid);
+    const r = productListings.slice(mid);
+
+    mergeSort(l);
+    mergeSort(r);
+
+    let i = 0;
+    let j = 0;
+    let k = 0;
+
+    while(i < l.length && j < r.length) {
+      if(l[i].Score < r[j].Score) {
+        productListings[k] = l[i];
+        i++;
+      } else {
+        productListings[k] = r[j];
+        j++;
+      }
+      k++;
+    }
+
+    while(i < l.length) {
+      productListings[k] = l[i];
+      i++;
+      k++;
+    }
+    while(j < r.length) {
+      productListings[k] = r[j];
+      j++;
+      k++;
+    }
+  }
 }
 
 async function getWeightings(req, res) {
@@ -119,7 +170,13 @@ async function getWeightings(req, res) {
 async function updateWeightings(req, res) {
   const client = auth.getClient('cookie', req.query.cookie);
 
-  console.log("updating weightings for user: " + client.email);
+  try {
+    const result = await db.updateWeightings(client.email, req.query.product_weight, req.query.supplierRating, req.query.time_weight);
+    res.sendStatus(200);
+  } catch(e) {
+    console.error(e);
+    res.sendStatus(404);
+  }
 }
 
 /**

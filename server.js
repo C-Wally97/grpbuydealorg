@@ -71,10 +71,6 @@ async function getProductListings(req, res) {
     productListing['Buyers'] = buyers;
   }
 
-  // if(client) {
-  //   // aggregateContent based on user weightings
-  //   productListings = await aggregateContent(productListings, client);
-  // }
   productListings = await aggregateContent(productListings, client);
   console.log(productListings);
 

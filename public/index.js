@@ -9,6 +9,8 @@ async function boot() {
   const productListings = await getProductListings();
   displayProductListings(productListings);
   // init modal
+  const weightings = await getWeightings();
+  displayWeightings(weightings);
 }
 
 // displays product listings on page
@@ -52,6 +54,36 @@ function displayProductListings(productListings) {
     downvoteButton.classList.add('voteButton');
     downvoteButton.textContent = 'v';
     downvoteButton.onclick = downvoteListing;
+  }
+}
+
+function displayWeightings(weightings) {
+  const rangeFields = document.getElementById("rangeFields");
+
+  for(const weighting of Object.keys(weightings)) {
+    const value = weightings[weighting];
+
+    const range = document.createElement("p");
+    rangeFields.append(range);
+    range.id = weighting;
+    range.class = 'range-field';
+
+    const label = document.createElement('label');
+    range.appendChild(label);
+    label.setAttribute('for', weighting);
+    label.textContent = weighting;
+
+    const input = document.createElement('input');
+    range.appendChild(input);
+    input.id = weighting;
+    input.classList.add('weighting-slider');
+    input.setAttribute('name', weighting);
+    input.setAttribute('type', 'range');
+    input.min = 0;
+    input.max = 100;
+
+    const rangeValue = document.getElementById(weighting)
+    rangeValue.value = value;
   }
 }
 

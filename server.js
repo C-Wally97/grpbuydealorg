@@ -71,43 +71,42 @@ async function getProductListings(req, res) {
     productListing['Buyers'] = buyers;
   }
 
-  if(client) {
-    // aggregateContent based on user weightings
-    productListings = await aggregateContent(productListings, client);
-  }
+  // if(client) {
+  //   // aggregateContent based on user weightings
+  //   productListings = await aggregateContent(productListings, client);
+  // }
+  productListings = await aggregateContent(productListings, client);
+  console.log(productListings);
 
   res.json(productListings);
 }
 
 async function aggregateContent(productListings, client) {
-  const weightings = await db.getWeightings(client.email);
-  /*
-  Product_rating_weight int default 30,
-  Supplier_rating_weight int default 30,
-  Time_weight int default 30
-  */
-  const total = weightings.Product_rating_weight + weightings.Supplier_rating_weight + weightings.Time_weight;
+  // get ratio between weightings
+  const weightings = await getWeightings_(client);
+
+  const total = weightings.Product_rating_weight + weightings.Supplier_rating_weight + weightings.Time_weight + weightings.Buyer_weight;
   const product_ratio = weightings.Product_rating_weight / total;
   const supplier_ratio = weightings.Supplier_rating_weight / total;
   const time_ratio = weightings.Time_weight / total;
+  const buyer_ratio = weightings.Buyer_weight / total;
 
   // assign overall rating to each productListing
   // a productListing has a total rating out of 100
   for(let productListing of productListings) {
-    console.log(productListing);
-
-    // get days passed since a product was listed
-    const currentDate = new Date();
-    const timeDiff = Math.abs(currentDate - productListing.Listing_Date);
-    const daysDiff = 1 / Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) * 100;
-
     let score = 0;
     // product rating
     score += productListing.Product_Rating * product_ratio;
     // supplier rating
     score += productListing.Supplier_rating * supplier_ratio;
     // time
+    // get days passed since a product was listed
+    const currentDate = new Date();
+    const timeDiff = Math.abs(currentDate - productListing.Listing_Date);
+    const daysDiff = 1 / Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) * 100;
     score += daysDiff * time_ratio;
+    // buyers
+    score += productListing.Buyers * buyer_ratio;
 
     productListing['Score'] = score;
   }
@@ -158,17 +157,28 @@ function mergeSort(productListings) {
 async function getWeightings(req, res) {
   const client = auth.getClient('cookie', req.query.cookie);
 
-  console.log("getting weightings for user: " + client.email);
+  res.json(await getWeightings_());
+}
 
-  const weightings = await db.getWeightings(client.email);
-  res.json(weightings);
+async function getWeightings_(client) {
+  if(client) {
+    console.log("getting weightings for user: " + client.email);
+
+    return await db.getWeightings(client.email);
+  } else {
+    console.log("providing weightings for anonymous user");
+
+    // default to middle on all scales
+    return {Product_rating_weight: 50, Supplier_rating_weight: 50,
+      Time_weight: 50, Buyer_weight: 50};
+  }
 }
 
 async function updateWeightings(req, res) {
   const client = auth.getClient('cookie', req.query.cookie);
 
   try {
-    const result = await db.updateWeightings(client.email, req.query.product_weight, req.query.supplier_weight, req.query.time_weight);
+    const result = await db.updateWeightings(client.email, req.query.product_weight, req.query.supplier_weight, req.query.time_weight, req.query.buyer_weight);
     res.sendStatus(200);
   } catch(e) {
     console.error(e);

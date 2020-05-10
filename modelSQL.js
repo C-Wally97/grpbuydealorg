@@ -74,16 +74,16 @@ async function updateRating(Listing_id, direction) {
 
 // gets the metric weightings for one user
 async function getWeightings(email) {
-  let query = `SELECT Product_rating_weight, Supplier_rating_weight, Time_weight FROM Users WHERE Email = "${email}"`;
+  let query = `SELECT Product_rating_weight, Supplier_rating_weight, Time_weight Buyer_Weight FROM Users WHERE Email = "${email}"`;
 
   query = sql.format(query);
   return (await sql.query(query))[0][0];
 }
 
-async function updateWeightings(email, Product_rating_weight, Supplier_rating_weight, Time_weight) {
+async function updateWeightings(email, Product_rating_weight, Supplier_rating_weight, Time_weight, Buyer_Weight) {
   let query = `UPDATE Users SET ? WHERE Email = "${email}"`;
 
-  query = sql.format(query, {Product_rating_weight, Supplier_rating_weight, Time_weight});
+  query = sql.format(query, {Product_rating_weight, Supplier_rating_weight, Time_weight, Buyer_Weight});
   return await sql.query(query);
 }
 

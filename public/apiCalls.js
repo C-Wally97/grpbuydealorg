@@ -71,43 +71,18 @@ async function downvoteListing(ev) {
 async function getWeightings() {
   const url = `/api/weightings?cookie=${clientContent.cookie}`;
   const response = await fetch(url);
-  let data = await response.json()
   if(response.ok) {
-    let keys = Object.keys(data)
-    let rangeFields = document.querySelector("#rangeFields")
-    console.log(rangeFields);
-    for (const key in keys) {
-        const range = document.createElement("p");
-        range.id = key;
-        range.class = 'range-field';
-
-        const label = document.createElement('label');
-        range.appendChild(label);
-        label.setAttribute('for', keys[key]);
-        label.textContent = keys[key];
-        const input = document.createElement('input');
-        range.appendChild(input);
-        input.id = keys[key];
-        input.classList.add('weighting-slider');
-        input.setAttribute('name', keys[key]);
-        input.setAttribute('type', 'range');
-        input.min = 0;
-        input.max = 100;
-
-        rangeFields.append(range);
-        let rangeValue = document.getElementById(keys[key])
-        rangeValue.value = data[keys[key]]
-    }
+    return await response.json();
   } else {
     console.error("failed to get weightings");
   }
 }
 
 // updates user controlled weightings
-async function updateWeightings(product_weight, supplier_weight, time_weight) {
+async function updateWeightings(product_weight, supplier_weight, time_weight, buyer_weight) {
   let url = `/api/weightings?cookie=${clientContent.cookie}`;
   // weightings
-  url += `&product_weight=${product_weight}&supplier_weight=${supplier_weight}&time_weight=${time_weight}`;
+  url += `&product_weight=${product_weight}&supplier_weight=${supplier_weight}&time_weight=${time_weight}&buyer_weight=${buyer_weight}`;
 
   const response = await fetch(url, {method: 'put'});
   if(response.ok) {

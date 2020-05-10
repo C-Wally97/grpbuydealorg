@@ -25,9 +25,10 @@ create table if not exists Users (
   Email varchar(60) not null unique,
   Password varchar(60) not null,
   Name varchar(60) not null,
-  Product_rating_weight int default 30,
-  Supplier_rating_weight int default 30,
-  Time_weight int default 30
+  Product_rating_weight int default 50,
+  Supplier_rating_weight int default 50,
+  Time_weight int default 50,
+  Buyer_weight int default 50
 );
 
 create table if not exists ProductListings_Users (

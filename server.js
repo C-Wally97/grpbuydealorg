@@ -153,7 +153,7 @@ function mergeSort(productListings) {
 async function getWeightings(req, res) {
   const client = auth.getClient('cookie', req.query.cookie);
 
-  res.json(await getWeightings_());
+  res.json(await getWeightings_(client));
 }
 
 async function getWeightings_(client) {

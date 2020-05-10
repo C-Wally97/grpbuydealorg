@@ -1,16 +1,13 @@
 'use strict'
 
 document.addEventListener('DOMContentLoaded', function() {
-  let modal = document.querySelectorAll('.modal');
-  let modalInit = M.Modal.init(modal);
+  const modal = document.querySelectorAll('.modal');
+  const modalInit = M.Modal.init(modal);
 });
 
 async function boot() {
-  const productListings = await getProductListings();
-  displayProductListings(productListings);
-  // init modal
-  const weightings = await getWeightings();
-  displayWeightings(weightings);
+  displayProductListings(await getProductListings());
+  displayWeightings(await getWeightings());
 }
 
 // displays product listings on page
@@ -57,6 +54,14 @@ function displayProductListings(productListings) {
   }
 }
 
+// removes all productListings from main container
+function removeProductListings() {
+  const productListings = document.querySelectorAll('.productListing');
+  for(const productListing of productListings) {
+    productListing.remove();
+  }
+}
+
 function displayWeightings(weightings) {
   const rangeFields = document.getElementById("rangeFields");
 
@@ -81,10 +86,36 @@ function displayWeightings(weightings) {
     input.setAttribute('type', 'range');
     input.min = 0;
     input.max = 100;
+    input.onchange = submitWeightings;
 
     const rangeValue = document.getElementById(weighting)
     rangeValue.value = value;
   }
+}
+
+// sets values for the weightings elements to values passed
+function setWeightings(weightings) {
+  for(const weighting of Object.keys(weightings)) {
+    const slider = document.getElementById(weighting).childNodes[1];
+    slider.value = weightings[weighting];
+  }
+}
+
+// onclick function for weighting submit button
+async function submitWeightings() {
+  // update ratings
+  // get data from DOM
+  const product_weight = document.getElementById("Product_rating_weight").childNodes[1].value;
+  const supplier_weight = document.getElementById("Supplier_rating_weight").childNodes[1].value;
+  const time_weight = document.getElementById("Time_weight").childNodes[1].value;
+  const buyer_weight = document.getElementById("Buyer_weight").childNodes[1].value;
+
+  // make api call
+  await updateWeightings(product_weight, supplier_weight, time_weight, buyer_weight);
+
+  // redisplay listings
+  removeProductListings();
+  displayProductListings(await getProductListings());
 }
 
 // adds a card to the page
@@ -94,6 +125,5 @@ function addCard(data) {
   const templateClone = template.content.cloneNode(true);
   main.appendChild(templateClone);
 }
-
 
 window.addEventListener("load", boot);

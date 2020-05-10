@@ -7,15 +7,20 @@ let clientContent = {
 };
 
 async function login() {
-  let email = document.getElementById("user_name").value;
-  let password = document.getElementById("password").value;
+  const email = document.getElementById("user_name").value;
+  const password = document.getElementById("password").value;
+
   const url = `/api/login?email=${email}&password=${password}`;
+
   const response = await fetch(url, {method: 'post'});
-  let nameContent = document.getElementById("nameContent");
   if(response.ok) {
     // extract content
+    const nameContent = document.getElementById("nameContent");
     clientContent = await response.json();
     nameContent.textContent = `Hello ${clientContent.name}!`;
+
+    // reload variable parts of page
+    setWeightings(await getWeightings());
   } else {
     console.log('failure');
   }

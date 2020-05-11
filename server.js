@@ -108,6 +108,7 @@ async function aggregateContent(productListings, client) {
   }
 
   mergeSort(productListings);
+  productListings.reverse();
 
   return productListings;
 }

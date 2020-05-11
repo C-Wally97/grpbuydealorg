@@ -88,8 +88,31 @@ async function updateWeightings(email, Product_rating_weight, Supplier_rating_we
 }
 
 // auth stuff
-async function getUser(email, password) {
-    let query = `SELECT * FROM Users WHERE Email = "${email}" AND Password = "${password}" ;`;
+async function checkLogin(email, password) {
+    let query = `SELECT * FROM Logins WHERE Email = "${email}" AND Password = "${password}" ;`;
+    query = sql.format(query);
+    const rows = await sql.query(query);
+    //return rows[0][0];
+    let login = rows[0][0];
+    if(login) {
+      // check if user or supplier
+      if(getUser(email, password)) {
+        return {'login': login, 'loginType': 'user'};
+      } else if(getSupplier(email, password)) {
+        return {'login': login, 'loginType': 'supplier'};
+      }
+    }
+
+    return false;
+}
+async function getUser(email) {
+    let query = `SELECT * FROM Users WHERE Email = "${email}";`;
+    query = sql.format(query);
+    const rows = await sql.query(query);
+    return rows[0][0];
+}
+async function getSupplier(email) {
+    let query = `SELECT * FROM Supplier WHERE Email = "${email}";`;
     query = sql.format(query);
     const rows = await sql.query(query);
     return rows[0][0];
@@ -104,5 +127,7 @@ module.exports = {
   updateRating: updateRating,
   getWeightings: getWeightings,
   updateWeightings: updateWeightings,
-  getUser: getUser
+  getUser: getUser,
+  getSupplier: getSupplier,
+  checkLogin: checkLogin
 }

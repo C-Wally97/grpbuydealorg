@@ -2,8 +2,6 @@
 
 let clientContent = {
   'cookie': null,
-  'email': null,
-  'name': null
 };
 
 async function login() {

@@ -24,27 +24,45 @@ async function login(req, res) {
 
       hash.update(password);
 
-      const attempt = await db.getUser(email, hash.digest('hex'));
-      if(attempt instanceof Error === false) {
-          const currentDate = new Date();
-          // generate cookie
-          const cookie = generateCookie();
+      const attempt = await db.checkLogin(email, hash.digest('hex'));
 
-          // form response content
-          const responseContent = {
-            'cookie': cookie,
-            'email': attempt.Email,
-            'name': attempt.Name
-          };
+      if(attempt) {
+        const currentDate = new Date();
+        // generate cookie
+        const cookie = generateCookie();
 
-          // add new client to clients
-          clients.push(responseContent);
-          // respond with cookie
-          res.json(responseContent);
+        // form response content
+        const responseContent = {
+          'cookie': cookie,
+          'email': attempt.login.Email,
+          'loginType': attempt.loginType
+        };
+
+
+        // get user or supplier info
+        let details;
+        switch(responseContent.loginType) {
+          case "user":
+            details = await db.getUser(email);
+            responseContent.name = details.Name;
+            break;
+          case "supplier":
+            details = await db.getSupplier(email);
+            responseContent.name = details.Name;
+            break;
+          default:
+            break;
+        }
+
+        console.log(responseContent);
+        // add new client to clients
+        clients.push(responseContent);
+        // respond with cookie
+        res.json(responseContent);
       } else {
-          console.log("Failed auth attempt!");
-          // respond with failure status
-          res.sendStatus(404);
+        console.log("Failed auth attempt!");
+        // respond with failure status
+        res.sendStatus(404);
       }
     }
 }

@@ -188,10 +188,10 @@ async function updateWeightings(req, res) {
 */
 async function postProductListing(req, res) {
   try {
-    const supplier = await db.getSupplier(req.query.email);
+    const client = auth.getClient('cookie', req.query.cookie);
 
-    if(supplier) {
-      const result = await db.insertProductListing(req.query.name, supplier.Supplier_id);
+    if(client.loginType == 'supplier') {
+      const result = await db.insertProductListing(req.query.name, client.Supplier_id);
       console.log(result);
       res.sendStatus(200);
     } else {
@@ -207,20 +207,32 @@ async function postProductListing(req, res) {
 * updates rating of a product listing
 */
 async function upvote(req, res) {
-  const listing_id = req.query.listing_id;
+  const client = auth.getClient('cookie', req.query.cookie);
+
   try {
-    const result = await db.updateRating(listing_id, 1);
-    res.sendStatus(200);
+    if(client.loginType == 'user') {
+      const listing_id = req.query.listing_id;
+      const result = await db.updateRating(listing_id, 1);
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(404);
+    }
   } catch(e) {
     console.error(e);
     res.sendStatus(404);
   }
 }
 async function downvote(req, res) {
-  const listing_id = req.query.listing_id;
+  const client = auth.getClient('cookie', req.query.cookie);
+
   try {
-    const result = await db.updateRating(listing_id, -1);
-    res.sendStatus(200);
+    if(client.loginType == 'user') {
+      const listing_id = req.query.listing_id;
+      const result = await db.updateRating(listing_id, -1);
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(404);
+    }
   } catch(e) {
     //console.error(e);
     res.sendStatus(404);

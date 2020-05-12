@@ -24,7 +24,7 @@ async function getProductListings() {
 
 async function postProductListing(name) {
   let url = '/api/productListing';
-  url += `?name=${name}&email=${clientContent.email}`;
+  url += `?cookie=${clientContent.cookie}&name=${name}`;
 
   const response = await fetch(url, {method: 'post'});
   if(response.ok) {
@@ -37,7 +37,7 @@ async function postProductListing(name) {
 async function upvoteListing(ev) {
   const listing_id = ev["target"].parentElement.parentElement.parentElement.parentElement.parentElement.id;
 
-  const url = `/api/upvote?listing_id=${listing_id}`;
+  const url = `/api/upvote?cookie=${clientContent.cookie}&listing_id=${listing_id}`;
 
   const response = await fetch(url, {method: 'put'});
   if(response.ok) {
@@ -54,7 +54,7 @@ async function upvoteListing(ev) {
 async function downvoteListing(ev) {
   const listing_id = ev["target"].parentElement.parentElement.parentElement.parentElement.parentElement.id;
 
-  const url = `/api/downvote?listing_id=${listing_id}`;
+  const url = `/api/downvote?cookie=${clientContent.cookie}&listing_id=${listing_id}`;
 
   const response = await fetch(url, {method: 'put'});
   if(response.ok) {

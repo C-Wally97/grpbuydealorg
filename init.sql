@@ -32,7 +32,8 @@ create table if not exists Users (
 create table if not exists ProductListings (
   Listing_id int primary key auto_increment,
   Name varchar(60) not null,
-  Listing_date date not null,
+  Listing_date datetime not null,
+  Image varchar(150) default 'https://placebear.com/200/300',
   Supplier_id int not null,
   Product_rating int default 0,
   constraint FK_Supplier foreign key(Supplier_id) references Suppliers (Supplier_id)

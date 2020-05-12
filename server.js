@@ -187,11 +187,16 @@ async function updateWeightings(req, res) {
 * posts a product listing, data in query component
 */
 async function postProductListing(req, res) {
-  const supplier_id = 1;
   try {
-    const result = await db.insertProductListing(req.query.name, supplier_id);
-    console.log(result);
-    res.sendStatus(200);
+    const supplier = await db.getSupplier(req.query.email);
+
+    if(supplier) {
+      const result = await db.insertProductListing(req.query.name, supplier.Supplier_id);
+      console.log(result);
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(404);
+    }
   } catch(e) {
     console.error(e);
     res.sendStatus(404);

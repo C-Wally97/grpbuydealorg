@@ -23,7 +23,8 @@ async function getProductListings() {
 }
 
 async function postProductListing(name) {
-  const url = `/api/productListing?name=${name}`;
+  let url = '/api/productListing';
+  url += `?name=${name}&email=${clientContent.email}`;
 
   const response = await fetch(url, {method: 'post'});
   if(response.ok) {

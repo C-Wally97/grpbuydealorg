@@ -31,7 +31,7 @@ async function allProductListings() {
 
 function getProductListingQuery() {
   // form query
-  const productFields = 'ProductListings.Listing_id, ProductListings.Name as ProductName, ProductListings.Listing_Date, ProductListings.Product_Rating';
+  const productFields = 'ProductListings.Listing_id, ProductListings.Name as ProductName, ProductListings.Listing_Date, ProductListings.Product_Rating, ProductListings.Image';
   const supplierFields = 'Suppliers.Name as SupplierName, Suppliers.Supplier_rating';
   const selectStatement = `SELECT ${productFields}, ${supplierFields} FROM ProductListings `;
   const supplierJoin = 'INNER JOIN Suppliers ON Suppliers.Supplier_id = ProductListings.Supplier_id';
@@ -47,11 +47,12 @@ async function getBuyersTotal(listing_id) {
 }
 
 async function insertProductListing(name, supplier_id) {
-  const query = 'INSERT INTO ProductListings SET ? ;';
+  let query = 'INSERT INTO ProductListings SET ? ;';
 
   // get today's date
   let listing_date = new Date();
   listing_date = listing_date.toISOString();
+  listing_date = listing_date.replace('T', ' ').slice(0, listing_date.length-5)
 
   query = sql.format(query, {name, listing_date, supplier_id});
   return await sql.query(query);
@@ -96,9 +97,9 @@ async function checkLogin(email, password) {
     let login = rows[0][0];
     if(login) {
       // check if user or supplier
-      if(getUser(email, password)) {
+      if(await getUser(email, password)) {
         return {'login': login, 'loginType': 'user'};
-      } else if(getSupplier(email, password)) {
+      } else if(await getSupplier(email, password)) {
         return {'login': login, 'loginType': 'supplier'};
       }
     }
@@ -112,7 +113,7 @@ async function getUser(email) {
     return rows[0][0];
 }
 async function getSupplier(email) {
-    let query = `SELECT * FROM Supplier WHERE Email = "${email}";`;
+    let query = `SELECT * FROM Suppliers WHERE Email = "${email}";`;
     query = sql.format(query);
     const rows = await sql.query(query);
     return rows[0][0];

@@ -38,7 +38,6 @@ async function login(req, res) {
           'loginType': attempt.loginType
         };
 
-
         // get user or supplier info
         let details;
         switch(responseContent.loginType) {

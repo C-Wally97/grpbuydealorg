@@ -29,8 +29,13 @@ function displayProductListings(productListings) {
       let ele = document.createElement('li');
       ele.classList.add(key);
       ele.textContent = (`${key}: ${value}`);
-      dataWrap.append(ele)
+      dataWrap.append(ele);
     }
+
+    // image
+    const image = document.createElement('img');
+    dataWrap.append(image);
+    image.src = productListing.Image;
 
     // add upvote and downvote button
     const card_content = card.querySelector('.card-content');

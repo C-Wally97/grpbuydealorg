@@ -1,3 +1,5 @@
+'use strict'
+
 // npm modules
 const express = require('express');
 const app = express();

@@ -18,9 +18,16 @@ async function login() {
     nameContent.textContent = `Hello ${clientContent.name}!`;
 
     if(clientContent.loginType == 'user') {
-      // reload variable parts of page
-      setWeightings(await getWeightings());
+      // add weightings
+      displayWeightings(await getWeightings());
+    } else if(clientContent.loginType == 'supplier') {
+      // disable voting buttons
+      // add a product listing button
     }
+
+    // redisplay listings
+    removeProductListings();
+    displayProductListings(await getProductListings());
   } else {
     console.error('Login not found.');
   }

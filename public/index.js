@@ -1,20 +1,13 @@
 'use strict'
 
-let row;
+async function boot() {
+  displayProductListings(await getProductListings());
+}
 
 document.addEventListener('DOMContentLoaded', function() {
   const modal = document.querySelectorAll('.modal');
   const modalInit = M.Modal.init(modal);
-  row = document.getElementById("cardRow");
-  let inputButton = document.getElementById('rangeButton');
-  inputButton.addEventListener("click", submitWeightings);
 });
-
-async function boot() {
-  displayProductListings(await getProductListings());
-  displayWeightings(await getWeightings());
-}
-
 
 // displays product listings on page
 function displayProductListings(productListings) {
@@ -34,7 +27,7 @@ function displayProductListings(productListings) {
 
     //supplier
     const supplierEle = document.createElement('li');
-    supplierEle.append(productListing.SupplierName + " - " + productListing.Supplier_rating);
+    supplierEle.append(productListing.SupplierName + ": " + productListing.Supplier_rating);
     dataWrap.append(supplierEle)
 
     //buyers
@@ -70,6 +63,11 @@ function displayProductListings(productListings) {
     upvoteButton.classList.add('voteButton');
     upvoteButton.textContent = '^';
     upvoteButton.onclick = upvoteListing;
+    if(clientContent.loginType == 'user') {
+      upvoteButton.disabled = false;
+    } else {
+      upvoteButton.disabled = true;
+    }
 
     // downvote button
     const downvoteButton = document.createElement('button');
@@ -77,6 +75,11 @@ function displayProductListings(productListings) {
     downvoteButton.classList.add('voteButton');
     downvoteButton.textContent = 'v';
     downvoteButton.onclick = downvoteListing;
+    if(clientContent.loginType == 'user') {
+      downvoteButton.disabled = false;
+    } else {
+      downvoteButton.disabled = true;
+    }
   }
 }
 
@@ -126,6 +129,23 @@ function displayWeightings(weightings) {
     const rangeValue = document.getElementById(weighting);
     rangeValue.value = value;
   }
+
+  // submit button
+  const sideWrapper = document.getElementById('side-wrapper');
+  const submitButton = document.createElement('button');
+  sideWrapper.append(submitButton);
+  submitButton.id = 'rangeButton';
+  submitButton.classList.add('waves-effect');
+  submitButton.classList.add('waves-light');
+  submitButton.classList.add('btn');
+  submitButton.type = 'submit';
+  submitButton.textContent = 'Submit';
+
+  const modal = document.querySelectorAll('.modal');
+  const modalInit = M.Modal.init(modal);
+  const row = document.getElementById("cardRow");
+  let inputButton = document.getElementById('rangeButton');
+  inputButton.addEventListener("click", submitWeightings);
 }
 
 // sets values for the weightings elements to values passed
@@ -158,6 +178,7 @@ function addCard(data) {
   const main = document.getElementById("main-content");
   const template = document.getElementsByTagName("template")[0];
   const templateClone = template.content.cloneNode(true);
+  const row = document.getElementById("cardRow");
   row.append(templateClone);
   main.appendChild(row);
 }

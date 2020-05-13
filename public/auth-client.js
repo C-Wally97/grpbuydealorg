@@ -17,7 +17,7 @@ async function login() {
     clientContent = await response.json();
     nameContent.textContent = `Hello ${clientContent.name}!`;
 
-    if(clientContent.loginType == 'Buyer') {
+    if(clientContent.loginType == 'user') {
       // reload variable parts of page
       setWeightings(await getWeightings());
     }

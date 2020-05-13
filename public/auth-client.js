@@ -17,8 +17,10 @@ async function login() {
     clientContent = await response.json();
     nameContent.textContent = `Hello ${clientContent.name}!`;
 
-    // reload variable parts of page
-    setWeightings(await getWeightings());
+    if(clientContent.loginType == 'Buyer') {
+      // reload variable parts of page
+      setWeightings(await getWeightings());
+    }
   } else {
     console.error('Login not found.');
   }

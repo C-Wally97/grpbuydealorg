@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const modal = document.querySelectorAll('.modal');
   const modalInit = M.Modal.init(modal);
   row = document.getElementById("cardRow");
+  let inputButton = document.getElementById('rangeButton');
+  inputButton.addEventListener("click", submitWeightings());
 });
 
 async function boot() {
@@ -110,9 +112,7 @@ function displayWeightings(weightings) {
     input.setAttribute('type', 'range');
     input.min = 0;
     input.max = 100;
-    input.onchange = submitWeightings;
-
-    const rangeValue = document.getElementById(weighting)
+    const rangeValue = document.getElementById(weighting);
     rangeValue.value = value;
   }
 }

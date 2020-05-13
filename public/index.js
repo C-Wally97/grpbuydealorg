@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const modalInit = M.Modal.init(modal);
   row = document.getElementById("cardRow");
   let inputButton = document.getElementById('rangeButton');
-  inputButton.addEventListener("click", submitWeightings());
+  inputButton.addEventListener("click", submitWeightings);
 });
 
 async function boot() {

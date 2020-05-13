@@ -5,6 +5,7 @@ Demo showing multiple users concurrently viewing/purchasing a product
 
 * Node
 * Git
+* mysql
 
 ## Common setup
 
@@ -22,6 +23,8 @@ npm install
 To start the express server, run the following
 
 ```bash
+npm run init_database
+npm run populate_database
 npm run dev
 ```
 

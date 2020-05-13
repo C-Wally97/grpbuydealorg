@@ -53,7 +53,6 @@ async function login(req, res) {
             break;
         }
 
-        console.log(responseContent);
         // add new client to clients
         clients.push(responseContent);
         // respond with cookie

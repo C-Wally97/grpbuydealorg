@@ -78,11 +78,7 @@ async function getProductListings(req, res) {
     delete productListing['Supplier_id'];
   }
 
-
-
   productListings = await aggregateContent(productListings, client);
-  console.log(productListings);
-
   res.json(productListings);
 }
 
@@ -199,7 +195,7 @@ async function postProductListing(req, res) {
   try {
     const client = auth.getClient('cookie', req.query.cookie);
 
-    if(client.loginType == 'supplier') {
+    if(client.loginType && client.loginType == 'supplier') {
       const result = await db.insertProductListing(req.query.name, client.Supplier_id);
       console.log(result);
       res.sendStatus(200);
@@ -219,7 +215,7 @@ async function upvote(req, res) {
   const client = auth.getClient('cookie', req.query.cookie);
 
   try {
-    if(client.loginType == 'user') {
+    if(client.loginType && client.loginType == 'user') {
       const listing_id = req.query.listing_id;
       const result = await db.updateRating(listing_id, 1);
       res.sendStatus(200);
@@ -235,7 +231,7 @@ async function downvote(req, res) {
   const client = auth.getClient('cookie', req.query.cookie);
 
   try {
-    if(client.loginType == 'user') {
+    if(client.loginType && client.loginType == 'user') {
       const listing_id = req.query.listing_id;
       const result = await db.updateRating(listing_id, -1);
       res.sendStatus(200);

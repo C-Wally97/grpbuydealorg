@@ -35,33 +35,31 @@ async function postProductListing(name) {
 }
 
 async function upvoteListing(ev) {
-  const listing_id = ev["target"].parentElement.parentElement.parentElement.parentElement.parentElement.id;
+  const listing_id = ev["target"].parentElement.parentElement.parentElement.parentElement.id;
 
   const url = `/api/upvote?cookie=${clientContent.cookie}&listing_id=${listing_id}`;
 
   const response = await fetch(url, {method: 'put'});
   if(response.ok) {
     console.log("product listing rating upvoted!");
-    // redisplay rating
-    const rating = (await getProductListing(listing_id)).Product_Rating;
-    const card = document.getElementById(listing_id);
-    card.querySelector('.Product_Rating').textContent = rating;
+    // redisplay listings
+    removeProductListings();
+    displayProductListings(await getProductListings());
   } else {
     console.error('failed to upvote product');
   }
 }
 
 async function downvoteListing(ev) {
-  const listing_id = ev["target"].parentElement.parentElement.parentElement.parentElement.parentElement.id;
+  const listing_id = ev["target"].parentElement.parentElement.parentElement.parentElement.id;
   const url = `/api/downvote?cookie=${clientContent.cookie}&listing_id=${listing_id}`;
 
   const response = await fetch(url, {method: 'put'});
   if(response.ok) {
     console.log("product listing rating downvoted!");
-    // redisplay rating
-    const rating = (await getProductListing(listing_id)).Product_Rating;
-    const card = document.getElementById(listing_id);
-    card.querySelector('.Product_Rating').textContent = rating;
+    // redisplay listings
+    removeProductListings();
+    displayProductListings(await getProductListings());
   } else {
     console.error('failed to downvote product');
   }

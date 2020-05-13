@@ -19,6 +19,10 @@ main {
   background-color: #D5D6D2;
 }
 
+#nav-mobile li {
+  padding-right: 1em;
+}
+
 #side-wrapper {
   display: block;
   margin: 0 auto;

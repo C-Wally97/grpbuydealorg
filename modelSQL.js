@@ -53,7 +53,7 @@ async function getSupplierRating(supplier_id) {
   return (await sql.query(query))[0][0];
 }
 
-async function insertProductListing(name, supplier_id) {
+async function insertProductListing(name, image, supplier_id) {
   let query = 'INSERT INTO ProductListings SET ? ;';
 
   // get today's date
@@ -61,7 +61,7 @@ async function insertProductListing(name, supplier_id) {
   listing_date = listing_date.toISOString();
   listing_date = listing_date.replace('T', ' ').slice(0, listing_date.length-5)
 
-  query = sql.format(query, {name, listing_date, supplier_id});
+  query = sql.format(query, {name, image, listing_date, supplier_id});
   return await sql.query(query);
 }
 

@@ -22,9 +22,9 @@ async function getProductListings() {
   }
 }
 
-async function postProductListing(name) {
+async function postProductListing(name, image) {
   let url = '/api/productListing';
-  url += `?cookie=${clientContent.cookie}&name=${name}`;
+  url += `?cookie=${clientContent.cookie}&name=${name}&image=${image}`;
 
   const response = await fetch(url, {method: 'post'});
   if(response.ok) {

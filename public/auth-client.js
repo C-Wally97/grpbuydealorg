@@ -20,7 +20,7 @@ async function login() {
     // reload variable parts of page
     setWeightings(await getWeightings());
   } else {
-    console.log('failure');
+    console.error('Login not found.');
   }
 }
 

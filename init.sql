@@ -10,7 +10,6 @@ create table if not exists Logins (
 create table if not exists Suppliers (
   Supplier_id int primary key auto_increment,
   Email varchar(60) not null,
-  Supplier_rating int default 0,
   Name varchar(60) not null,
   Address varchar(150) unique,
   Town varchar(54) not null,

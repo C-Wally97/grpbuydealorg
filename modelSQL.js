@@ -32,7 +32,7 @@ async function allProductListings() {
 function getProductListingQuery() {
   // form query
   const productFields = 'ProductListings.Listing_id, ProductListings.Name as ProductName, ProductListings.Listing_Date, ProductListings.Product_Rating, ProductListings.Image';
-  const supplierFields = 'Suppliers.Name as SupplierName, Suppliers.Supplier_rating';
+  const supplierFields = 'Suppliers.Name as SupplierName, Suppliers.Supplier_id as Supplier_id';
   const selectStatement = `SELECT ${productFields}, ${supplierFields} FROM ProductListings `;
   const supplierJoin = 'INNER JOIN Suppliers ON Suppliers.Supplier_id = ProductListings.Supplier_id';
   return selectStatement + supplierJoin;
@@ -44,6 +44,13 @@ async function getBuyersTotal(listing_id) {
   query = sql.format(query);
   const rows = await sql.query(query);
   return rows[0][0];
+}
+
+async function getSupplierRating(supplier_id) {
+  let query = 'SELECT SUM(Product_rating) as Supplier_rating FROM ProductListings';
+  query = `${query} WHERE Supplier_id = ${supplier_id};`;
+  query = sql.format(query);
+  return (await sql.query(query))[0][0];
 }
 
 async function insertProductListing(name, supplier_id) {
@@ -124,6 +131,7 @@ module.exports = {
   productListing: productListing,
   allProductListings: allProductListings,
   getBuyersTotal: getBuyersTotal,
+  getSupplierRating: getSupplierRating,
   insertProductListing: insertProductListing,
   updateRating: updateRating,
   getWeightings: getWeightings,

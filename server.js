@@ -65,11 +65,20 @@ async function getProductListings(req, res) {
   }
 
   let productListings = await db.allProductListings();
-  // get buyers
   for(let productListing of productListings) {
+    // get buyers
     const buyers = (await db.getBuyersTotal(productListing.Listing_id)).Buyers;
     productListing['Buyers'] = buyers;
+
+    // get supplier rating - total of all previous product ratings from supplier
+    const supplier_rating = (await db.getSupplierRating(productListing.Supplier_id)).Supplier_rating;
+    productListing['Supplier_rating'] = parseInt(supplier_rating);
+
+    // remove uncessary fields
+    delete productListing['Supplier_id'];
   }
+
+
 
   productListings = await aggregateContent(productListings, client);
   console.log(productListings);

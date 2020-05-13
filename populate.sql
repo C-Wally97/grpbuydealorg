@@ -16,6 +16,15 @@ insert into Suppliers(Email, Name, Address, Town, Postcode) values ("company@dom
 /* product listings */
 insert into ProductListings(Name, Image, Listing_date, Supplier_id) values ("A product", "/images/myImage.png", "20/4/20", 1);
 insert into ProductListings(Name, Listing_date, Supplier_id) values ("The next product", "02/01/20", 1);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("The next product", "02/01/20", 1);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("The next product", "02/01/20", 1);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("The next product", "02/01/20", 1);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("The next product", "02/01/20", 1);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("The next product", "02/01/20", 1);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("The next product", "02/01/20", 1);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("The next product", "02/01/20", 1);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("The next product", "02/01/20", 1);
+
 
 /* users */
 /* myPassword */

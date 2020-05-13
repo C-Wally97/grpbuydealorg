@@ -1,14 +1,18 @@
 'use strict'
 
+let row;
+
 document.addEventListener('DOMContentLoaded', function() {
   const modal = document.querySelectorAll('.modal');
   const modalInit = M.Modal.init(modal);
+  row = document.getElementById("cardRow");
 });
 
 async function boot() {
   displayProductListings(await getProductListings());
   displayWeightings(await getWeightings());
 }
+
 
 // displays product listings on page
 function displayProductListings(productListings) {
@@ -25,23 +29,38 @@ function displayProductListings(productListings) {
 
     const dataWrap = document.getElementById("dataWrap");
     dataWrap.setAttribute("id", "completed")
-    for (let [key, value] of Object.entries(productListing)) {
-      let ele = document.createElement('li');
-      ele.classList.add(key);
-      ele.textContent = (`${key}: ${value}`);
-      dataWrap.append(ele);
-    }
+
+    //supplier
+    const supplierEle = document.createElement('li');
+    supplierEle.append(productListing.SupplierName + " - " + productListing.Supplier_rating);
+    dataWrap.append(supplierEle)
+
+    //buyers
+    const buyersEle = document.createElement('li');
+    buyersEle.textContent = "Buyers: "
+    buyersEle.append(productListing.Buyers);
+    dataWrap.append(buyersEle)
+
+    //date listed
+    const listDate = document.createElement('li');
+    listDate.textContent = "Date Listed: "
+    listDate.append(productListing.Listing_Date);
+    dataWrap.append(listDate)
 
     // image
     const image = document.createElement('img');
+    image.classList.add("test")
     dataWrap.append(image);
     image.src = productListing.Image;
 
     // add upvote and downvote button
     const card_content = card.querySelector('.card-content');
-
     const voteButtonContainer = document.createElement('div');
     card_content.appendChild(voteButtonContainer);
+    let voteNo = document.createElement('p')
+    voteNo.classList.add('Product_Rating')
+    voteNo.textContent = productListing.Product_Rating
+    voteButtonContainer.appendChild(voteNo);
 
     // upvote button
     const upvoteButton = document.createElement('button');
@@ -128,7 +147,8 @@ function addCard(data) {
   const main = document.getElementById("main-content");
   const template = document.getElementsByTagName("template")[0];
   const templateClone = template.content.cloneNode(true);
-  main.appendChild(templateClone);
+  row.append(templateClone);
+  main.appendChild(row);
 }
 
 window.addEventListener("load", boot);

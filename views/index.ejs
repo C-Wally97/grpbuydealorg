@@ -16,11 +16,9 @@
 <body>
   <nav>
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo right"><button class="waves-effect waves-light btn modal-trigger" href="#myModal" type="submit">Log in</button></a>
-      <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li><a href="#">nav 1</a></li>
-        <li><a href="#">nav 2</a></li>
-        <li><a href="#">nav 3</a></li>
+      <a href="#" class="brand-logo left">Group Buying Org</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><button class="waves-effect waves-light btn modal-trigger" href="#myModal" type="submit">Log in</button></li>
       </ul>
     </div>
   </nav>
@@ -39,6 +37,9 @@
           </div>
           <button onclick=login() class="waves-effect btn modal-close">Submit</button>
       </div>
+    <div id="cardRow" class="row">
+
+    </div>
   </main>
   <!-- Side bar content -->
   <div id="sidebar-content">
@@ -53,18 +54,12 @@
 
 <!-- Templates -->
 <template>
-  <div id="card" class="row productListing">
-    <div class="col s12 m6">
+   <div id="card" class="row productListing col s6">
       <div class="card blue-grey darken-1">
         <div class="card-content white-text">
           <span class="card-title"></span>
           <ul class="main-card-content" id="dataWrap">
           </ul>
-        <div class="card-action">
-          <a href="#">This is a link</a>
-          <a href="#">This is a link</a>
         </div>
       </div>
-    </div>
-  </div>
 </template>

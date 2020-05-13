@@ -53,7 +53,6 @@ async function upvoteListing(ev) {
 
 async function downvoteListing(ev) {
   const listing_id = ev["target"].parentElement.parentElement.parentElement.parentElement.parentElement.id;
-
   const url = `/api/downvote?cookie=${clientContent.cookie}&listing_id=${listing_id}`;
 
   const response = await fetch(url, {method: 'put'});

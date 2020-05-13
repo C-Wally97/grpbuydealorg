@@ -80,11 +80,15 @@ function displayProductListings(productListings) {
   }
 }
 
-//adds a product to the db
+// adds a product to the db
 async function addProduct() {
-  const prodName = document.getElementById("product_name");
-  const prodImg = document.getElementById("product_image");
+  const prodName = document.getElementById("product_name").value;
+  const prodImg = document.getElementById("product_image").value;
   postProductListing(prodName, prodImg);
+
+  // redisplay listings
+  removeProductListings();
+  displayProductListings(await getProductListings());
 }
 
 // removes all productListings from main container

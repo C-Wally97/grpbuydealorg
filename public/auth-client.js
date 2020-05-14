@@ -26,8 +26,23 @@ async function login(email, password) {
       displayWeightings(weightings);
       setWeightings(weightings)
     } else if(clientContent.loginType == 'supplier') {
-      // disable voting buttons
       // add a product listing button
+      const nav = document.getElementById('nav-mobile');
+      const li = document.createElement('li');
+      nav.appendChild(li);
+
+      const addProductbutton = document.createElement('button');
+      li.appendChild(addProductbutton);
+      addProductbutton.classList.add('waves-effect');
+      addProductbutton.classList.add('waves-light');
+      addProductbutton.classList.add('btn');
+      addProductbutton.classList.add('modal-trigger');
+      addProductbutton.href = '#addProdModal';
+      addProductbutton.type = 'submit';
+      addProductbutton.textContent = 'Add product';
+
+      const modal = document.querySelectorAll('.modal');
+      const modalInit = M.Modal.init(modal);
     }
 
     // redisplay listings

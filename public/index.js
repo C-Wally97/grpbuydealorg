@@ -119,8 +119,8 @@ function displayWeightings(weightings) {
     let labelString = weighting.split("_");
     labelString.pop();
     labelString = labelString.join(" ");
-    if(labelString == 'time') {
-      labelString += 'since listed';
+    if(labelString == 'Time') {
+      labelString += ' since listed';
     }
     label.textContent = labelString;
 

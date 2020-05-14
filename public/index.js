@@ -116,7 +116,13 @@ function displayWeightings(weightings) {
     const label = document.createElement('label');
     range.appendChild(label);
     label.setAttribute('for', weighting);
-    label.textContent = weighting;
+    let labelString = weighting.split("_");
+    labelString.pop();
+    labelString = labelString.join(" ");
+    if(labelString == 'time') {
+      labelString += 'since listed';
+    }
+    label.textContent = labelString;
 
     const input = document.createElement('input');
     range.appendChild(input);

@@ -25,17 +25,22 @@ insert into Suppliers(Email, Name, Address, Town, Postcode) values ("company1@do
 insert into Suppliers(Email, Name, Address, Town, Postcode) values ("company2@domain.com", "company2", "address2", "town2", "PO40DP");
 
 /* product listings */
-insert into ProductListings(Name, Listing_date, Image, Supplier_id) values ("product", "20/4/20", "/images/myImage.png", 1);
+insert into ProductListings(Name, Listing_date, Image, Supplier_id) values ("product", "20/4/20", "/images/myImage.png", 3);
 insert into ProductListings(Name, Listing_date, Supplier_id, Product_rating) values ("product1", "02/01/20", 1, 100);
-insert into ProductListings(Name, Listing_date, Supplier_id, Product_rating) values ("product2", "02/01/20", 2, 100);
+insert into ProductListings(Name, Listing_date, Supplier_id, Product_rating) values ("product2", "02/01/20", 2, 75);
 insert into ProductListings(Name, Listing_date, Supplier_id) values ("product3", "02/01/20", 1);
-insert into ProductListings(Name, Listing_date, Supplier_id) values ("product4", "02/01/20", 1);
-insert into ProductListings(Name, Listing_date, Supplier_id) values ("product5", "02/01/20", 1);
-insert into ProductListings(Name, Listing_date, Supplier_id) values ("product6", "02/01/20", 1);
-insert into ProductListings(Name, Listing_date, Supplier_id) values ("product7", "02/01/20", 1);
-insert into ProductListings(Name, Listing_date, Supplier_id) values ("product8", "02/01/20", 1);
-insert into ProductListings(Name, Listing_date, Supplier_id) values ("product9", "02/01/20", 1);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("product4", "02/01/20", 2);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("product5", "02/01/20", 3);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("product6", "02/01/20", 2);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("product7", "02/01/20", 3);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("product8", "02/01/20", 2);
+insert into ProductListings(Name, Listing_date, Supplier_id) values ("product9", "02/01/20", 3);
 
 /* product_listings - users */
 insert into ProductListings_Users(Listing_id, User_id, optIn_date) values (1, 1, "05/01/20");
 insert into ProductListings_Users(Listing_id, User_id, optIn_date) values (2, 1, "08/01/20");
+insert into ProductListings_Users(Listing_id, User_id, optIn_date) values (2, 2, "08/01/20");
+insert into ProductListings_Users(Listing_id, User_id, optIn_date) values (3, 1, "05/01/20");
+insert into ProductListings_Users(Listing_id, User_id, optIn_date) values (4, 1, "05/01/20");
+insert into ProductListings_Users(Listing_id, User_id, optIn_date) values (5, 1, "05/01/20");
+insert into ProductListings_Users(Listing_id, User_id, optIn_date) values (6, 1, "05/01/20");

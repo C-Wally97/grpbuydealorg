@@ -2,7 +2,7 @@
 
 // test cases for functionality
 async function test() {
-
+  await contentAggregation_test();
 }
 
 // content aggregation based on weightings
@@ -13,17 +13,38 @@ const setups = [
     'Supplier_rating_weight': 0,
     'Time_weight': 0,
     'Buyer_weight': 0,
-    'order': ["11", "1", "8", "13", "9", "4", "6", "2", "3", "12", "14", "10", "5", "7"]
+    'order': ["2", "3", "4", "5", "7", "9", "1", "6", "8", "10"]
+  },
+  {
+    'Product_rating_weight': 0,
+    'Supplier_rating_weight': 100,
+    'Time_weight': 0,
+    'Buyer_weight': 0,
+    'order': ["2", "4", "3", "5", "7", "9", "1", "6", "8", "10"]
+  },
+  {
+    'Product_rating_weight': 0,
+    'Supplier_rating_weight': 0,
+    'Time_weight': 100,
+    'Buyer_weight': 0,
+    'order': ["1", "2", "4", "3", "5", "7", "9", "6", "8", "10"]
+  },
+  {
+    'Product_rating_weight': 0,
+    'Supplier_rating_weight': 0,
+    'Time_weight': 0,
+    'Buyer_weight': 100,
+    'order': ["2", "4", "3", "5", "1", "6", "7", "9", "8", "10"]
   }
 ]
 
 async function contentAggregation_test() {
   let pass = true;
 
-  for(const setup of setups) {
-    // login
-    await login('myEmail@domain.com', 'myPassword');
+  // login
+  await login('myEmail@domain.com', 'myPassword');
 
+  for(const setup of setups) {
     // set weightings
     // make copy of setup and pop order key to get weightings
     const weightings = JSON.parse(JSON.stringify(setup));

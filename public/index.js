@@ -180,7 +180,6 @@ function addCard(data) {
   const templateClone = template.content.cloneNode(true);
   const row = document.getElementById("cardRow");
   row.append(templateClone);
-  //main.appendChild(row);
 }
 
 window.addEventListener("load", boot);

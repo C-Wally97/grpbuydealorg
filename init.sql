@@ -7,16 +7,6 @@ create table if not exists Logins (
   Password varchar(60) not null
 );
 
-create table if not exists Suppliers (
-  Supplier_id int primary key auto_increment,
-  Email varchar(60) not null,
-  Name varchar(60) not null,
-  Address varchar(150) unique,
-  Town varchar(54) not null,
-  Postcode varchar(8) not null,
-  constraint FK_SupplierLogin foreign key(Email) references Logins (Email)
-);
-
 create table if not exists Users (
   User_id int primary key auto_increment,
   Email varchar(60) not null,
@@ -26,6 +16,16 @@ create table if not exists Users (
   Time_weight int default 50,
   Buyer_weight int default 50,
   constraint FK_UserLogin foreign key(Email) references Logins (Email)
+);
+
+create table if not exists Suppliers (
+  Supplier_id int primary key auto_increment,
+  Email varchar(60) not null,
+  Name varchar(60) not null,
+  Address varchar(150) unique,
+  Town varchar(54) not null,
+  Postcode varchar(8) not null,
+  constraint FK_SupplierLogin foreign key(Email) references Logins (Email)
 );
 
 create table if not exists ProductListings (

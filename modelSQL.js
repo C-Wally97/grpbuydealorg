@@ -139,4 +139,4 @@ module.exports = {
   getUser: getUser,
   getSupplier: getSupplier,
   checkLogin: checkLogin
-}
+};

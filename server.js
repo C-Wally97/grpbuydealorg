@@ -160,12 +160,11 @@ function mergeSort(productListings) {
 
 async function getWeightings(req, res) {
   const client = auth.getClient('cookie', req.query.cookie);
-
   res.json(await getWeightings_(client));
 }
 
 async function getWeightings_(client) {
-  if(client) {
+  if(client && client.loginType == 'user') {
     console.log("getting weightings for user: " + client.email);
 
     return await db.getWeightings(client.email);
@@ -247,8 +246,8 @@ async function downvote(req, res) {
   }
 }
 
-app.get('/api/hashString', getHashedString);
 // debug
+app.get('/api/hashString', getHashedString);
 async function getHashedString(req, res) {
   res.send(auth.hashString(req.query.string));
 }

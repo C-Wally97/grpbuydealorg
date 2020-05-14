@@ -4,10 +4,13 @@ let clientContent = {
   'cookie': null,
 };
 
-async function login() {
+async function loginHandler() {
   const email = document.getElementById("user_name").value;
   const password = document.getElementById("password").value;
 
+  await login(email, password);
+}
+async function login(email, password) {
   const url = `/api/login?email=${email}&password=${password}`;
 
   const response = await fetch(url, {method: 'post'});
@@ -19,7 +22,9 @@ async function login() {
 
     if(clientContent.loginType == 'user') {
       // add weightings
-      displayWeightings(await getWeightings());
+      const weightings = await getWeightings();
+      displayWeightings(weightings);
+      setWeightings(weightings)
     } else if(clientContent.loginType == 'supplier') {
       // disable voting buttons
       // add a product listing button

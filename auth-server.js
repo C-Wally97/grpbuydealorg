@@ -98,4 +98,4 @@ module.exports = {
   getClients: getClients,
   getClient: getClient,
   hashString: hashString
-}
+};

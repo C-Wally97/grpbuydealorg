@@ -196,7 +196,7 @@ async function postProductListing(req, res) {
   try {
     const client = auth.getClient('cookie', req.query.cookie);
 
-    if(client.loginType && client.loginType == 'supplier') {
+    if(client && client.loginType == 'supplier') {
       // get supplier id
       const supplier_id = (await db.getSupplier(client.email)).Supplier_id;
       const result = await db.insertProductListing(req.query.name, req.query.image, supplier_id);

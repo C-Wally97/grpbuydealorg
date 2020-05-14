@@ -5,6 +5,7 @@ async function boot() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  // initialise modal bar
   const modal = document.querySelectorAll('.modal');
   const modalInit = M.Modal.init(modal);
 });

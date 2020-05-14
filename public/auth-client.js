@@ -37,12 +37,9 @@ async function login(email, password) {
       addProductbutton.classList.add('waves-light');
       addProductbutton.classList.add('btn');
       addProductbutton.classList.add('modal-trigger');
-      addProductbutton.href = '#addProdModal';
+      addProductbutton.setAttribute('href', '#addProdModal');
       addProductbutton.type = 'submit';
       addProductbutton.textContent = 'Add product';
-
-      const modal = document.querySelectorAll('.modal');
-      const modalInit = M.Modal.init(modal);
     }
 
     // redisplay listings
